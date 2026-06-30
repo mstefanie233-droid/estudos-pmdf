@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Central de Estudos — PMDF Soldado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0E141C;--bg2:#0B1118;--surface:#161F2B;--surface2:#1C2836;--line:#26323F;--line2:#324252;
+    --txt:#E7ECF2;--muted:#8A99AB;--faint:#5C6B7C;--gold:#E5AE3B;--green:#3FCB8E}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1200px 600px at 80% -10%,#15202d 0,transparent 60%),
+    radial-gradient(900px 500px at -10% 0,#131b26 0,transparent 55%),var(--bg);
+    color:var(--txt);font-family:'Inter',system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 16px}
+  .wrap{max-width:820px;width:100%}
+  .eyebrow{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:3px;font-size:12px;color:var(--gold);font-weight:600;margin:0 0 4px;text-align:center}
+  h1{font-family:'Barlow Condensed';font-weight:700;font-size:38px;margin:0;text-transform:uppercase;letter-spacing:.5px;text-align:center;line-height:1}
+  .sub{color:var(--muted);font-size:14px;text-align:center;margin:10px auto 28px;max-width:560px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  a.card{display:block;text-decoration:none;color:var(--txt);background:linear-gradient(160deg,var(--surface),var(--bg2));
+    border:1px solid var(--line);border-radius:18px;padding:24px 22px;transition:.18s;position:relative;overflow:hidden}
+  a.card:hover{border-color:var(--gold);transform:translateY(-3px)}
+  a.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .ic{font-size:30px}
+  .ct{font-family:'Barlow Condensed';font-weight:700;font-size:23px;text-transform:uppercase;letter-spacing:.4px;margin:10px 0 6px}
+  .cd{font-size:13px;color:var(--muted);line-height:1.5}
+  .go{font-family:'Barlow Condensed';font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:13px;color:var(--gold);margin-top:14px;display:inline-flex;align-items:center;gap:6px}
+  .note{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--green);
+    border-radius:10px;padding:13px 16px;font-size:12.5px;color:var(--muted);line-height:1.6}
+  .note b{color:var(--txt)}
+  footer{text-align:center;color:var(--faint);font-size:11.5px;margin-top:20px}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}h1{font-size:30px}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Central de Estudos · Concurso</p>
+    <h1>Soldado PMDF</h1>
+    <p class="sub">Meus dois painéis de preparação. Tudo salva no aparelho e tem botão de backup — faça backup de vez em quando para não perder o progresso ao trocar de celular.</p>
+
+    <div class="grid">
+      <a class="card" href="edital-verticalizado-pmdf-soldado.html">
+        <div class="ic">📋</div>
+        <div class="ct">Edital Verticalizado</div>
+        <div class="cd">O QUE estudar. Todo o conteúdo programático até o subtópico, com marcação de Teoria / Revisão / Questões, links grátis por matéria e patente que sobe.</div>
+        <span class="go">Abrir painel →</span>
+      </a>
+      <a class="card" href="cronograma-6-meses-pmdf-soldado.html">
+        <div class="ic">🗓️</div>
+        <div class="ct">Cronograma 6 Meses</div>
+        <div class="cd">QUANDO estudar. Rotina semanal fixa em blocos de 50 min, dividida em 3 fases, com streak, físico/TAF integrado e fechamento de semana.</div>
+        <span class="go">Abrir painel →</span>
+      </a>
+    </div>
+
+    <div class="note">
+      <b>Dica de longo prazo:</b> uma vez por semana, clique em <b>⬇ Backup</b> em cada painel e guarde o arquivo <b>.json</b> num lugar seguro (Google Drive ou seu e-mail). Se trocar de aparelho ou limpar o navegador, é só <b>⬆ Restaurar</b> e seu progresso volta exatamente de onde parou.
+    </div>
+    <footer>Base: Edital nº 04/2023-DGP/PMDF · ajuste quando sair o edital de 2027.</footer>
+  </div>
+</body>
+</html>

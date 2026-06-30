@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cronograma 6 Meses — PMDF Soldado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E141C; --bg2:#0B1118; --surface:#161F2B; --surface2:#1C2836;
+    --line:#26323F; --line2:#324252; --txt:#E7ECF2; --muted:#8A99AB; --faint:#5C6B7C;
+    --gold:#E5AE3B; --gold-soft:#3a2f15; --green:#3FCB8E; --green-soft:#16352a;
+    --blue:#4FA3E3; --blue-soft:#13293c; --amber:#E9954A; --amber-soft:#3a2a18;
+    --purple:#B583E8; --purple-soft:#241a31; --red:#E86A6A; --red-soft:#341a1c;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{
+    background:radial-gradient(1200px 600px at 80% -10%, #15202d 0, transparent 60%),
+      radial-gradient(900px 500px at -10% 0, #131b26 0, transparent 55%), var(--bg);
+    color:var(--txt); font-family:'Inter',system-ui,sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased; padding:22px 16px 60px;
+  }
+  .wrap{max-width:1060px;margin:0 auto}
+
+  header.top{background:linear-gradient(160deg,var(--surface),var(--bg2));border:1px solid var(--line);
+    border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;
+    background:linear-gradient(90deg,var(--gold),#caa23a 40%,transparent)}
+  .eyebrow{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:2.5px;font-size:12px;
+    color:var(--gold);font-weight:600;margin:0 0 2px}
+  h1{font-family:'Barlow Condensed';font-weight:700;font-size:30px;margin:0;line-height:1.05;
+    text-transform:uppercase;letter-spacing:.5px}
+  .sub{color:var(--muted);font-size:13.5px;margin-top:4px;max-width:680px}
+
+  .meters{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+  .meter{background:var(--surface2);border:1px solid var(--line2);border-radius:13px;padding:11px 16px;
+    display:flex;align-items:center;gap:12px}
+  .meter b{font-family:'Barlow Condensed';font-size:26px;font-weight:700;line-height:1}
+  .meter .ml{font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .flame{font-size:24px}
+  .weekprog{flex:1;min-width:220px}
+  .wp-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .wp-top .pc{font-family:'Barlow Condensed';font-weight:700;font-size:22px;color:var(--green)}
+  .wp-top .l{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .bar{height:11px;background:var(--bg2);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2f9e6e,var(--green));transition:width .45s}
+
+  /* phase timeline */
+  .timeline{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0 4px}
+  .ph{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 15px;cursor:pointer;
+    transition:.15s;position:relative;overflow:hidden}
+  .ph:hover{border-color:var(--line2)}
+  .ph.active{border-color:var(--gold);background:linear-gradient(160deg,#1d2533,var(--surface))}
+  .ph.active::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--gold)}
+  .ph .pn{font-family:'Barlow Condensed';font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .ph .pt{font-family:'Barlow Condensed';font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:.4px;margin:2px 0}
+  .ph .pm{font-size:11.5px;color:var(--faint)}
+  .ph .pf{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:16px 2px 14px;font-size:11.5px;color:var(--muted)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle}
+
+  .focusbar{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13.5px;color:var(--muted)}
+  .focusbar b{color:var(--txt)}
+
+  /* week grid */
+  .week{display:flex;flex-direction:column;gap:10px}
+  .day{background:var(--surface);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .dhead{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid var(--line)}
+  .dname{font-family:'Barlow Condensed';font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.6px;flex:none;width:54px}
+  .dtag{font-size:10px;font-family:'Barlow Condensed';letter-spacing:1px;text-transform:uppercase;color:var(--faint)}
+  .dprog{margin-left:auto;font-family:'Barlow Condensed';font-size:13px;color:var(--faint)}
+  .weekend .dname{color:var(--gold)}
+  .blocks{padding:8px 10px;display:flex;flex-direction:column;gap:7px}
+  .blk{display:flex;align-items:center;gap:12px;padding:9px 11px;border-radius:10px;background:var(--bg2);
+    border:1px solid var(--line);cursor:pointer;transition:.12s;user-select:none}
+  .blk:hover{border-color:var(--line2)}
+  .blk.done{opacity:.55}
+  .blk.done .blabel{text-decoration:line-through;text-decoration-color:var(--faint)}
+  .check{width:22px;height:22px;border-radius:7px;border:2px solid var(--line2);flex:none;display:flex;
+    align-items:center;justify-content:center;color:transparent;font-size:13px;font-weight:800;transition:.12s}
+  .blk.done .check{background:var(--green);border-color:var(--green);color:#0a1f16}
+  .slot{font-family:'Barlow Condensed';font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);
+    flex:none;width:64px}
+  .blabel{flex:1;font-size:13.5px}
+  .kind{font-size:9.5px;font-family:'Barlow Condensed';font-weight:700;letter-spacing:.7px;text-transform:uppercase;
+    padding:2px 8px;border-radius:6px;flex:none}
+  .k-teoria{background:var(--blue-soft);color:var(--blue)}
+  .k-questoes{background:var(--green-soft);color:var(--green)}
+  .k-revisao{background:var(--amber-soft);color:var(--amber)}
+  .k-redacao{background:var(--purple-soft);color:var(--purple)}
+  .k-fisico{background:var(--red-soft);color:var(--red)}
+  .k-descanso{background:#202a36;color:var(--faint)}
+  .blk.k-descanso-row{cursor:default;opacity:.85}
+
+  .closeweek{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+  .btn{border:none;border-radius:11px;padding:12px 20px;font-family:'Barlow Condensed';font-weight:700;
+    font-size:15px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.15s}
+  .btn.gold{background:var(--gold);color:#1a130a}
+  .btn.gold:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--muted)}
+  .btn.ghost:hover{color:var(--txt)}
+  .hint{font-size:12px;color:var(--faint)}
+
+  .taf{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:18px}
+  .taf h3{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.4px;font-size:14px;color:var(--red);margin:0 0 8px}
+  .taf .row{display:flex;flex-wrap:wrap;gap:8px}
+  .taf .pill{background:var(--red-soft);border:1px solid #4a2426;color:#f0a3a3;border-radius:8px;padding:6px 11px;font-size:12px}
+
+  footer{margin-top:24px;color:var(--faint);font-size:12px;text-align:center;line-height:1.7}
+  .saved{display:inline-flex;align-items:center;gap:6px;color:var(--green);opacity:0;transition:.3s}
+  .saved.show{opacity:1}.saved i{width:7px;height:7px;background:var(--green);border-radius:99px;display:inline-block}
+
+  @media(max-width:640px){
+    body{padding:14px 10px 50px} h1{font-size:23px}
+    .timeline{grid-template-columns:1fr}
+    .slot{width:54px}.dname{width:46px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Plano de Estudos · 6 Meses · Blocos de 50 min</p>
+    <h1>Cronograma — Soldado PMDF</h1>
+    <p class="sub">Rotina fixa por dia da semana pra cortar a decisão diária. Distribuição por peso da prova: Específicos puxam o time, núcleo comum (Português, RLM, Constitucional, Administrativo) vem primeiro. Marque os blocos — tudo salva automático.</p>
+    <div class="meters">
+      <div class="meter"><span class="flame" id="flame">🔥</span><div><b id="streak">0</b><div class="ml">semanas em sequência</div></div></div>
+      <div class="meter"><div><b id="weeksDone" style="color:var(--gold)">0</b><div class="ml">semanas concluídas</div></div></div>
+      <div class="weekprog">
+        <div class="wp-top"><span class="l">Progresso da semana</span><span class="pc" id="weekPct">0%</span></div>
+        <div class="bar"><i id="weekFill"></i></div>
+        <div class="hint" id="weekCount" style="margin-top:6px">0 de 0 blocos</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="timeline" id="timeline"></div>
+  <div class="focusbar" id="focusbar"></div>
+
+  <div class="legend">
+    <span><i style="background:var(--blue)"></i>Teoria</span>
+    <span><i style="background:var(--green)"></i>Questões</span>
+    <span><i style="background:var(--amber)"></i>Revisão</span>
+    <span><i style="background:var(--purple)"></i>Redação</span>
+    <span><i style="background:var(--red)"></i>Físico / TAF</span>
+  </div>
+
+  <div class="week" id="week"></div>
+
+  <div class="closeweek">
+    <button class="btn gold" id="closeBtn">Fechar semana ✔</button>
+    <button class="btn ghost" id="clearBtn">Limpar marcações</button>
+    <button class="btn ghost" id="backup">⬇ Backup</button>
+    <button class="btn ghost" id="restore">⬆ Restaurar</button>
+    <input type="file" id="restoreFile" accept="application/json" style="display:none">
+    <span class="hint">Fechou ≥70% dos blocos? Clica em “Fechar semana” pra somar streak e zerar pra próxima.</span>
+  </div>
+
+  <div class="taf">
+    <h3>Metas do TAF — feminino (não esquecer, é eliminatório)</h3>
+    <div class="row">
+      <span class="pill">Barra estática · 20 segundos</span>
+      <span class="pill">Abdominal remador · 35 repetições</span>
+      <span class="pill">Corrida · 2.100 m em 12 min</span>
+      <span class="pill">Natação · 50 m em até 1min10s</span>
+    </div>
+  </div>
+
+  <footer>
+    <span class="saved" id="saved"><i></i> salvo</span><br>
+    Base: Edital nº 04/2023-DGP/PMDF. Ajuste os horários dos blocos à sua agenda no Sicoob — a estrutura importa mais que o relógio.<br>
+    Sugestão de carga: ~16 blocos/semana (≈13h). Tem mais tempo? Some um bloco extra de questões nas noites da Fase 3.
+  </footer>
+</div>
+
+<script>
+/* ===== DADOS DO CRONOGRAMA ===== */
+const D=(dia,tag,blocos,weekend)=>({dia,tag,blocos,weekend:!!weekend});
+const b=(slot,label,kind)=>({slot,label,kind});
+
+const PHASES=[
+{
+  id:"f1", pn:"Fase 1 · Mês 1–2", pt:"Fundação", pm:"Núcleo comum + base jurídica",
+  pf:"Travar a base que também cai na PRF: Português, RLM, Constitucional e Administrativo. Teoria pesada agora, questões leves.",
+  foco:"<b>Foco da fase:</b> dominar do zero o núcleo comum (Português, RLM, Direito Constitucional/DH e Administrativo). Lei seca + teoria. Questões só pra fixar, sem cobrança de volume ainda.",
+  dias:[
+   D("Seg","Português + Constitucional",[b("Manhã","Português — teoria (gramática que mais cai)","teoria"),b("Noite","Constitucional/DH — teoria","teoria"),b("Treino","Força — glúteos/inferiores","fisico")]),
+   D("Ter","RLM + Administrativo",[b("Manhã","RLM — estruturas lógicas / proposições","teoria"),b("Noite","Dir. Administrativo — teoria","teoria"),b("Treino","Corrida base (aeróbico leve)","fisico")]),
+   D("Qua","Português + Constitucional",[b("Manhã","Português — teoria","teoria"),b("Noite","Constitucional/DH — teoria","teoria"),b("Treino","Força — superiores + core (barra)","fisico")]),
+   D("Qui","RLM + Administrativo",[b("Manhã","RLM — exercícios guiados","teoria"),b("Noite","Dir. Administrativo — teoria","teoria"),b("Treino","Corrida base","fisico")]),
+   D("Sex","Fixação",[b("Manhã","Português — questões da semana","questoes"),b("Noite","Legislação PMDF — lei seca (leve)","teoria"),b("Treino","Força — glúteos","fisico")]),
+   D("Sáb","Consolidar",[b("Bloco 1","Revisão ativa da semana (flashcards)","revisao"),b("Bloco 2","Questões: Constitucional + Administrativo","questoes"),b("Bloco 3","Questões: Português + RLM","questoes"),b("Bloco 4","Constitucional/DH — avançar teoria","teoria"),b("Treino","Aeróbico longo","fisico")],true),
+   D("Dom","Leve",[b("Bloco 1","Revisão espaçada (o que errou na semana)","revisao"),b("Descanso","Descanso ativo — recuperar","descanso")],true)
+  ]
+},
+{
+  id:"f2", pn:"Fase 2 · Mês 3–4", pt:"Aprofundamento", pm:"Específicos pesados + manter núcleo",
+  pf:"Entram Penal, Processual Penal, os militares e Criminologia. Núcleo vira revisão + questões. Começa a redação semanal.",
+  foco:"<b>Foco da fase:</b> os Específicos que valem 40 pontos (Penal, Proc. Penal, Penal Militar, Proc. Penal Militar, Criminologia). O núcleo agora é mantido por questões e revisão. 1 redação cronometrada por semana.",
+  dias:[
+   D("Seg","Penal + núcleo",[b("Manhã","Dir. Penal — teoria (parte geral)","teoria"),b("Noite","Questões: Português + Constitucional","questoes"),b("Treino","Força","fisico")]),
+   D("Ter","Proc. Penal + PMDF",[b("Manhã","Dir. Processual Penal — teoria","teoria"),b("Noite","Legislação PMDF — lei seca + questões","teoria"),b("Treino","Corrida (subir volume → 2.100 m)","fisico")]),
+   D("Qua","Penal Militar + Atualidades",[b("Manhã","Penal / Penal Militar — teoria","teoria"),b("Noite","Atualidades DF/RIDE","teoria"),b("Treino","Força — glúteos","fisico")]),
+   D("Qui","Proc. Penal Militar + Inglês",[b("Manhã","Proc. Penal / Proc. Penal Militar — teoria","teoria"),b("Noite","Inglês — reading (texto curto)","teoria"),b("Treino","Corrida + natação","fisico")]),
+   D("Sex","Criminologia + fixação",[b("Manhã","Criminologia — teoria","teoria"),b("Noite","Questões dos específicos da semana","questoes"),b("Treino","Força","fisico")]),
+   D("Sáb","Treino de prova",[b("Bloco 1","Redação — 1 dissertação cronometrada","redacao"),b("Bloco 2","Questões mistas (todas as matérias)","questoes"),b("Bloco 3","Revisão dos específicos da semana","revisao"),b("Bloco 4","Mini-simulado parcial (40 questões)","questoes"),b("Treino","Simulação de TAF (corrida + barra)","fisico")],true),
+   D("Dom","Ciclo de revisão",[b("Bloco 1","Revisão espaçada (caderno de erros)","revisao"),b("Bloco 2","Lei seca em ciclo","revisao"),b("Descanso","Descanso","descanso")],true)
+  ]
+},
+{
+  id:"f3", pn:"Fase 3 · Mês 5–6", pt:"Reta Final", pm:"Revisão + questões + simulados",
+  pf:"Pouca teoria nova. Revisão por incidência, bateria diária de questões (Cebraspe Certo/Errado se confirmado) e simulado completo todo sábado.",
+  foco:"<b>Foco da fase:</b> revisar por incidência e resolver MUITAS questões no formato da banca. Simulado completo cronometrado por semana + redação corrigida. Treino de TAF em simulação real.",
+  dias:[
+   D("Seg","Revisão + bateria",[b("Manhã","Revisão por incidência — Penal + Proc. Penal","revisao"),b("Noite","Bateria de questões (Cebraspe)","questoes"),b("Treino","Força","fisico")]),
+   D("Ter","Revisão + bateria",[b("Manhã","Revisão — Constitucional + Adm + DH","revisao"),b("Noite","Bateria de questões + caderno de erros","questoes"),b("Treino","Corrida em ritmo de 2.100 m","fisico")]),
+   D("Qua","Revisão + bateria",[b("Manhã","Revisão — Militares + Criminologia","revisao"),b("Noite","Bateria de questões","questoes"),b("Treino","Força — glúteos","fisico")]),
+   D("Qui","Revisão + bateria",[b("Manhã","Revisão — Português + Legislação PMDF","revisao"),b("Noite","Bateria de questões","questoes"),b("Treino","Corrida + natação (50 m)","fisico")]),
+   D("Sex","Revisão + bateria",[b("Manhã","Revisão — RLM + Atualidades + Inglês","revisao"),b("Noite","Questões + correção dos erros","questoes"),b("Treino","Barra estática + abdominal remador","fisico")]),
+   D("Sáb","Simulado completo",[b("Bloco 1","SIMULADO — 80 questões cronometrado","questoes"),b("Bloco 2","SIMULADO — continuação","questoes"),b("Bloco 3","Redação cronometrada (30 linhas)","redacao"),b("Bloco 4","Conferir gabarito + marcar erros","revisao"),b("Treino","Simulação completa de TAF","fisico")],true),
+   D("Dom","Correção",[b("Bloco 1","Correção do simulado + caderno de erros","revisao"),b("Bloco 2","Reescrever a redação com as correções","redacao"),b("Descanso","Descanso","descanso")],true)
+  ]
+}
+];
+
+/* ===== STATE / STORAGE ===== */
+const KEY="pmdf_cronograma_v1";
+let state={phase:"f1",done:{},streak:0,weeks:0};
+let memOnly=false;
+const $=s=>document.querySelector(s);
+
+function blockId(pid,di,bi){return pid+"."+di+"."+bi;}
+function isCheckable(blk){return blk.kind!=="descanso";}
+
+const Store={
+  async get(k){
+    try{ if(window.storage&&window.storage.get){ const r=await window.storage.get(k); if(r&&r.value!=null) return r.value; } }catch(e){}
+    try{ return localStorage.getItem(k); }catch(e){ return null; }
+  },
+  async set(k,v){
+    try{ if(window.storage&&window.storage.set){ await window.storage.set(k,v); } }catch(e){}
+    try{ localStorage.setItem(k,v); }catch(e){ memOnly=true; }
+  },
+  async del(k){
+    try{ if(window.storage&&window.storage.delete){ await window.storage.delete(k); } }catch(e){}
+    try{ localStorage.removeItem(k); }catch(e){}
+  }
+};
+async function load(){try{const v=await Store.get(KEY);if(v)state=Object.assign(state,JSON.parse(v));}catch(e){}}
+let st=null;
+async function save(){flagSaved();clearTimeout(st);st=setTimeout(()=>{Store.set(KEY,JSON.stringify(state));},250);}
+function flagSaved(){const s=$("#saved");s.classList.add("show");clearTimeout(flagSaved._t);flagSaved._t=setTimeout(()=>s.classList.remove("show"),1100);}
+
+/* ===== RENDER ===== */
+function curPhase(){return PHASES.find(p=>p.id===state.phase)||PHASES[0];}
+
+function renderTimeline(){
+  const tl=$("#timeline");tl.innerHTML="";
+  PHASES.forEach(p=>{
+    const el=document.createElement("div");el.className="ph"+(p.id===state.phase?" active":"");
+    el.innerHTML='<div class="pn">'+p.pn+'</div><div class="pt">'+p.pt+'</div><div class="pm">'+p.pm+'</div><div class="pf">'+p.pf+'</div>';
+    el.addEventListener("click",()=>{state.phase=p.id;save();renderAll();});
+    tl.appendChild(el);
+  });
+}
+
+function renderWeek(){
+  const p=curPhase();
+  $("#focusbar").innerHTML=p.foco;
+  const wk=$("#week");wk.innerHTML="";
+  p.dias.forEach((d,di)=>{
+    const day=document.createElement("div");day.className="day"+(d.weekend?" weekend":"");
+    const head=document.createElement("div");head.className="dhead";
+    head.innerHTML='<span class="dname">'+d.dia+'</span><span class="dtag">'+d.tag+'</span>';
+    const dp=document.createElement("span");dp.className="dprog";head.appendChild(dp);
+    day.appendChild(head);
+    const blocks=document.createElement("div");blocks.className="blocks";
+    let tot=0,don=0;
+    d.blocos.forEach((blk,bi)=>{
+      const id=blockId(p.id,di,bi);
+      const row=document.createElement("div");
+      const checkable=isCheckable(blk);
+      row.className="blk k-"+blk.kind+(checkable?"":" k-descanso-row");
+      const isDone=checkable && !!state.done[id];
+      if(isDone)row.classList.add("done");
+      const ck=checkable?'<div class="check">✓</div>':'<div class="check" style="border-color:transparent;background:transparent"></div>';
+      row.innerHTML=ck+'<span class="slot">'+blk.slot+'</span><span class="blabel">'+blk.label+'</span><span class="kind k-'+blk.kind+'">'+blk.kind+'</span>';
+      if(checkable){
+        tot++; if(isDone)don++;
+        row.addEventListener("click",()=>{
+          state.done[id]=!state.done[id];
+          row.classList.toggle("done",state.done[id]);
+          save();updateProgress();
+        });
+      }
+      blocks.appendChild(row);
+    });
+    day.appendChild(blocks);
+    day.dataset.tot=tot; day.dataset.di=di;
+    dp.dataset.dp=di;
+    wk.appendChild(day);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  const p=curPhase();let tot=0,don=0;
+  p.dias.forEach((d,di)=>{
+    let dt=0,dd=0;
+    d.blocos.forEach((blk,bi)=>{
+      if(!isCheckable(blk))return;
+      dt++;tot++;
+      if(state.done[blockId(p.id,di,bi)]){dd++;don++;}
+    });
+    const dp=document.querySelector('[data-dp="'+di+'"]');
+    if(dp)dp.textContent=dd+"/"+dt;
+  });
+  const pct=tot?Math.round(don/tot*100):0;
+  $("#weekPct").textContent=pct+"%";$("#weekFill").style.width=pct+"%";
+  $("#weekCount").textContent=don+" de "+tot+" blocos desta fase";
+  $("#streak").textContent=state.streak;$("#weeksDone").textContent=state.weeks;
+  $("#flame").style.opacity=state.streak>0?"1":".4";
+}
+
+/* ===== ACTIONS ===== */
+function clearMarks(){
+  const p=curPhase();
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{delete state.done[blockId(p.id,di,bi)];}));
+  save();renderWeek();
+}
+$("#clearBtn").addEventListener("click",()=>{ if(confirm("Limpar as marcações desta fase?")) clearMarks(); });
+$("#closeBtn").addEventListener("click",()=>{
+  const p=curPhase();let tot=0,don=0;
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{if(!isCheckable(blk))return;tot++;if(state.done[blockId(p.id,di,bi)])don++;}));
+  const pct=tot?don/tot:0;
+  if(pct>=0.7){
+    state.weeks++; state.streak++;
+    alert("Semana fechada! 🎖  Streak: "+state.streak+" semana(s). Bora pra próxima!");
+  } else {
+    if(!confirm("Você fez "+Math.round(pct*100)+"% da semana (meta: 70%). Fechar mesmo assim? Isso zera o streak.")) return;
+    state.weeks++; state.streak=0;
+  }
+  // reset marks for new week (current phase)
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{delete state.done[blockId(p.id,di,bi)];}));
+  save();renderWeek();updateProgress();
+});
+
+// ----- Backup / Restaurar -----
+$("#backup").addEventListener("click",()=>{
+  const data={app:"pmdf-cronograma",versao:1,data:new Date().toISOString(),state:state};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);const a=document.createElement("a");
+  const d=new Date();const stamp=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  a.href=url;a.download="backup-cronograma-pmdf-"+stamp+".json";a.click();URL.revokeObjectURL(url);
+});
+$("#restore").addEventListener("click",()=>$("#restoreFile").click());
+$("#restoreFile").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const obj=JSON.parse(rd.result);
+      const incoming=obj&&obj.state?obj.state:obj;
+      if(typeof incoming!=="object"||!("done" in incoming)) throw 0;
+      if(!confirm("Restaurar este backup? Ele substitui o progresso atual.")) return;
+      state=Object.assign({phase:"f1",done:{},streak:0,weeks:0},incoming);
+      save();renderAll();
+      alert("Backup restaurado! 🎖");
+    }catch(err){ alert("Arquivo inválido. Use um backup gerado por este cronograma."); }
+    e.target.value="";
+  };
+  rd.readAsText(f);
+});
+
+function renderAll(){renderTimeline();renderWeek();}
+
+/* ===== INIT ===== */
+(async function(){ await load(); renderAll(); })();
+</script>
+</body>
+</html>
