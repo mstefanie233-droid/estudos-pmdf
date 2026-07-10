@@ -106,6 +106,25 @@
   .btn.ghost:hover{color:var(--txt)}
   .hint{font-size:12px;color:var(--faint)}
 
+  .modeswitch{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;padding:10px 14px;margin:14px 0;cursor:pointer;transition:.15s;user-select:none}
+  .modeswitch:hover{border-color:var(--line2)}
+  .modeswitch.on{border-color:var(--amber);background:linear-gradient(160deg,var(--amber-soft),var(--surface))}
+  .msw{width:38px;height:22px;border-radius:99px;background:var(--bg2);border:1px solid var(--line2);position:relative;flex:none;transition:.2s}
+  .msw>i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:99px;background:var(--faint);transition:.2s}
+  .modeswitch.on .msw{background:var(--amber-soft);border-color:var(--amber)}
+  .modeswitch.on .msw>i{left:18px;background:var(--amber)}
+  .mstxt b{font-size:13.5px;display:block}
+  .mstxt span{font-size:11.5px;color:var(--faint)}
+  .presencial-banner{display:none;background:var(--amber-soft);border:1px solid #4a3319;border-left:3px solid var(--amber);
+    border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13px;color:#e8c9a0;line-height:1.5}
+  .presencial-banner b{color:var(--amber)}
+  body.presencial .presencial-banner{display:block}
+  body.presencial .blk.k-teoria,body.presencial .blk.k-redacao{opacity:.4}
+  body.presencial .blk.k-teoria .blabel::after,body.presencial .blk.k-redacao .blabel::after{
+    content:" — opcional hoje";font-size:11px;color:var(--amber);font-style:italic}
+  body.presencial .blk.k-revisao,body.presencial .blk.k-questoes{border-color:var(--amber)}
+
   .taf{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:18px}
   .taf h3{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.4px;font-size:14px;color:var(--red);margin:0 0 8px}
   .taf .row{display:flex;flex-wrap:wrap;gap:8px}
@@ -141,6 +160,15 @@
   </header>
 
   <div class="timeline" id="timeline"></div>
+
+  <div class="modeswitch" id="modeswitch">
+    <div class="msw"><i></i></div>
+    <div class="mstxt"><b>🪫 Modo Semana Presencial</b><span>Ative em semanas de trabalho presencial — reduz a cobrança e destaca só o essencial</span></div>
+  </div>
+  <div class="presencial-banner" id="presencialBanner">
+    <b>Modo semana presencial ativo.</b> Meta de hoje: 1 bloco de 20–25 min, revisão ou questões — nada de teoria nova. Blocos de teoria/redação ficam esmaecidos (opcionais). O objetivo aqui não é avançar, é não perder o hábito. Semana que vem, com energia de volta, desativa e segue o ritmo normal.
+  </div>
+
   <div class="focusbar" id="focusbar"></div>
 
   <div class="legend">
@@ -231,7 +259,7 @@ const PHASES=[
 
 /* ===== STATE / STORAGE ===== */
 const KEY="pmdf_cronograma_v1";
-let state={phase:"f1",done:{},streak:0,weeks:0};
+let state={phase:"f1",done:{},streak:0,weeks:0,presencial:false};
 let memOnly=false;
 const $=s=>document.querySelector(s);
 
@@ -369,7 +397,7 @@ $("#restoreFile").addEventListener("change",e=>{
       const incoming=obj&&obj.state?obj.state:obj;
       if(typeof incoming!=="object"||!("done" in incoming)) throw 0;
       if(!confirm("Restaurar este backup? Ele substitui o progresso atual.")) return;
-      state=Object.assign({phase:"f1",done:{},streak:0,weeks:0},incoming);
+      state=Object.assign({phase:"f1",done:{},streak:0,weeks:0,presencial:false},incoming);
       save();renderAll();
       alert("Backup restaurado! 🎖");
     }catch(err){ alert("Arquivo inválido. Use um backup gerado por este cronograma."); }
@@ -378,7 +406,16 @@ $("#restoreFile").addEventListener("change",e=>{
   rd.readAsText(f);
 });
 
-function renderAll(){renderTimeline();renderWeek();}
+function applyMode(){
+  document.body.classList.toggle("presencial",!!state.presencial);
+  $("#modeswitch").classList.toggle("on",!!state.presencial);
+}
+$("#modeswitch").addEventListener("click",()=>{
+  state.presencial=!state.presencial;
+  applyMode(); save();
+});
+
+function renderAll(){renderTimeline();renderWeek();applyMode();}
 
 /* ===== INIT ===== */
 (async function(){ await load(); renderAll(); })();
