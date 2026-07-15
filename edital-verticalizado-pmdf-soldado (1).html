@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edital Verticalizado — PMDF Soldado QPPMC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E141C;
+    --bg2:#0B1118;
+    --surface:#161F2B;
+    --surface2:#1C2836;
+    --line:#26323F;
+    --line2:#324252;
+    --txt:#E7ECF2;
+    --muted:#8A99AB;
+    --faint:#5C6B7C;
+    --gold:#E5AE3B;
+    --gold-soft:#3a2f15;
+    --green:#3FCB8E;
+    --green-soft:#16352a;
+    --blue:#4FA3E3;
+    --blue-soft:#13293c;
+    --amber:#E9954A;
+    --amber-soft:#3a2a18;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #15202d 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 0%, #131b26 0%, transparent 55%),
+      var(--bg);
+    color:var(--txt);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding:22px 16px 60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+  .display{font-family:'Barlow Condensed','Inter',sans-serif;letter-spacing:.4px}
+
+  /* ===== HEADER ===== */
+  header.top{
+    background:linear-gradient(160deg,var(--surface) 0%, var(--bg2) 100%);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px 22px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::before{
+    content:"";position:absolute;inset:0 0 auto 0;height:3px;
+    background:linear-gradient(90deg,var(--gold),#caa23a 40%,transparent);
+  }
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:2.5px;
+    font-size:12px;color:var(--gold);font-weight:600;margin:0 0 2px}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;margin:0;line-height:1.05;
+    text-transform:uppercase;letter-spacing:.5px}
+  .sub{color:var(--muted);font-size:13.5px;margin-top:4px;max-width:640px}
+
+  .rankrow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:18px}
+  .badge{
+    display:flex;align-items:center;gap:12px;
+    background:var(--surface2);border:1px solid var(--line2);
+    border-radius:14px;padding:12px 16px;min-width:230px;
+  }
+  .chevrons{font-family:'Barlow Condensed';font-weight:700;color:var(--gold);font-size:26px;line-height:.8;
+    letter-spacing:-2px;text-shadow:0 0 14px rgba(229,174,59,.25)}
+  .rank-label{font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint)}
+  .rank-name{font-family:'Barlow Condensed';font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.5px}
+  .nextrank{font-size:11.5px;color:var(--muted)}
+
+  .progwrap{flex:1;min-width:260px}
+  .progtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .progtop .pct{font-family:'Barlow Condensed';font-weight:700;font-size:24px;color:var(--green)}
+  .progtop .lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .bar{height:12px;background:var(--bg2);border-radius:99px;border:1px solid var(--line);overflow:hidden;position:relative}
+  .bar > i{display:block;height:100%;width:0;border-radius:99px;
+    background:linear-gradient(90deg,#2f9e6e,var(--green));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+  .stat{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center}
+  .stat b{font-family:'Barlow Condensed';font-size:24px;font-weight:700;display:block;line-height:1}
+  .stat span{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .stat.dom b{color:var(--green)} .stat.rev b{color:var(--amber)}
+  .stat.est b{color:var(--blue)} .stat.tot b{color:var(--txt)}
+
+  /* ===== CONTROLS ===== */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0 6px}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{width:100%;background:var(--surface);border:1px solid var(--line2);color:var(--txt);
+    border-radius:11px;padding:11px 14px 11px 38px;font-size:14px;font-family:inherit;outline:none}
+  .search input:focus{border-color:var(--gold)}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+  .chips{display:flex;gap:7px;flex-wrap:wrap}
+  .chip{background:var(--surface);border:1px solid var(--line2);color:var(--muted);
+    padding:8px 13px;border-radius:99px;font-size:12.5px;cursor:pointer;font-weight:500;
+    font-family:'Barlow Condensed';letter-spacing:.5px;text-transform:uppercase;transition:.15s;user-select:none}
+  .chip:hover{border-color:var(--gold);color:var(--txt)}
+  .chip.on{background:var(--gold);color:#1a130a;border-color:var(--gold);font-weight:700}
+  .miniact{background:transparent;border:1px solid var(--line2);color:var(--muted);border-radius:9px;
+    padding:8px 11px;font-size:12px;cursor:pointer;font-family:inherit}
+  .miniact:hover{color:var(--txt);border-color:var(--line2)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 2px 0;font-size:11.5px;color:var(--muted)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle}
+
+  /* ===== BLOCK HEADINGS ===== */
+  .blockhead{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:2px;font-size:14px;
+    color:var(--gold);margin:26px 4px 12px;display:flex;align-items:center;gap:10px}
+  .blockhead::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+
+  /* ===== DISCIPLINE CARD ===== */
+  .disc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    margin-bottom:12px;overflow:hidden}
+  .disc.hidden{display:none}
+  .dhead{display:flex;align-items:center;gap:13px;padding:14px 16px;cursor:pointer;user-select:none}
+  .dhead:hover{background:var(--surface2)}
+  .arrow{color:var(--faint);transition:transform .2s;font-size:12px;flex:none}
+  .disc.open .arrow{transform:rotate(90deg)}
+  .dtitle{flex:1;min-width:0}
+  .dtitle .nm{font-family:'Barlow Condensed';font-weight:700;font-size:18px;text-transform:uppercase;
+    letter-spacing:.4px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .tag{font-family:'Inter';font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+    padding:2px 7px;border-radius:5px}
+  .tag.q{background:var(--gold-soft);color:var(--gold);border:1px solid #5a481f}
+  .tag.nuc{background:#11283a;color:var(--blue);border:1px solid #1d3f59}
+  .dmeta{font-size:11.5px;color:var(--faint);margin-top:2px}
+  .dprog{flex:none;width:120px;text-align:right}
+  .dprog .num{font-family:'Barlow Condensed';font-weight:700;font-size:15px}
+  .dbar{height:7px;background:var(--bg2);border-radius:99px;overflow:hidden;margin-top:5px;border:1px solid var(--line)}
+  .dbar > i{display:block;height:100%;background:linear-gradient(90deg,#2f9e6e,var(--green));width:0;transition:width .4s}
+
+  .dbody{display:none;padding:2px 8px 10px;border-top:1px solid var(--line)}
+  .disc.open .dbody{display:block}
+
+  /* topic rows */
+  .topic{padding:9px 8px 9px 6px;border-bottom:1px solid #1d2733}
+  .topic:last-child{border-bottom:none}
+  .topic.hidden{display:none}
+  .trow{display:flex;align-items:flex-start;gap:12px}
+  .tnum{font-family:'Barlow Condensed';color:var(--faint);font-weight:600;font-size:13px;min-width:24px;
+    text-align:right;padding-top:2px;flex:none}
+  .tlabel{flex:1;font-size:14px;color:var(--txt)}
+  .topic.done .tlabel{color:var(--muted)}
+  .toggles{display:flex;gap:6px;flex:none}
+  .tg{width:30px;height:26px;border-radius:7px;border:1px solid var(--line2);background:var(--bg2);
+    color:var(--faint);font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;
+    justify-content:center;font-family:'Barlow Condensed';letter-spacing:.5px;transition:.12s;user-select:none}
+  .tg:hover{border-color:var(--line2);color:var(--muted)}
+  .tg.t.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
+  .tg.r.on{background:var(--amber-soft);border-color:var(--amber);color:var(--amber)}
+  .tg.q.on{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+
+  /* subtopics */
+  .subs{margin:6px 0 0 36px;display:flex;flex-direction:column;gap:3px}
+  .sub-i{display:flex;align-items:center;gap:10px;padding:4px 0}
+  .sub-i.hidden{display:none}
+  .sdot{width:7px;height:7px;border-radius:99px;background:var(--line2);flex:none}
+  .sub-i.done .sdot{background:var(--green)}
+  .slabel{flex:1;font-size:13px;color:var(--muted)}
+  .sub-i.done .slabel{color:var(--faint);text-decoration:line-through;text-decoration-color:#2a3a30}
+  .sub-i .toggles .tg{width:27px;height:23px;font-size:10px}
+
+/* ===== VIDEO CHECKLIST ===== */
+.vidbtn{display:flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--line2);
+color:var(--faint);border-radius:7px;padding:0 9px;height:26px;font-size:11px;font-weight:600;
+cursor:pointer;font-family:'Barlow Condensed';letter-spacing:.3px;transition:.12s;user-select:none;flex:none}
+.vidbtn:hover{color:var(--muted);border-color:var(--line2)}
+.vidbtn.has{background:#1d1726;border-color:#3a2e44;color:#c9a6e8}
+.sub-i .vidbtn{height:23px;font-size:10px;padding:0 7px}
+.vidpanel{display:none;margin:8px 0 4px 36px;background:var(--bg2);border:1px solid var(--line2);
+border-radius:10px;padding:10px 12px}
+.vidpanel.open{display:block}
+.sub-i + .vidpanel{margin-left:36px}
+.vidlist{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.vidlist:empty{margin-bottom:0}
+.vid-item{display:flex;align-items:center;gap:9px;font-size:12.5px}
+.vid-item input[type=checkbox]{width:15px;height:15px;accent-color:#a76fe0;cursor:pointer;flex:none}
+.vid-item .vlabel{flex:1;color:var(--muted)}
+.vid-item.done .vlabel{color:var(--faint);text-decoration:line-through;text-decoration-color:#2a3a30}
+.vid-item .vdel{background:none;border:none;color:var(--faint);cursor:pointer;font-size:14px;padding:0 4px;flex:none}
+.vid-item .vdel:hover{color:#e0707a}
+.addvid{background:transparent;border:1px dashed var(--line2);color:var(--muted);border-radius:8px;
+padding:6px 11px;font-size:12px;cursor:pointer;font-family:inherit}
+.addvid:hover{border-color:#a76fe0;color:#c9a6e8}
+.vidempty{font-size:12px;color:var(--faint);margin-bottom:8px}
+
+  .empty{text-align:center;color:var(--faint);padding:40px;font-size:14px}
+
+  footer{margin-top:28px;color:var(--faint);font-size:12px;text-align:center;line-height:1.7}
+  .saved{display:inline-flex;align-items:center;gap:6px;color:var(--green);opacity:0;transition:.3s}
+  .saved.show{opacity:1}
+  .saved i{width:7px;height:7px;background:var(--green);border-radius:99px;display:inline-block}
+
+  /* tools bar */
+  .toolsbar{background:linear-gradient(160deg,var(--surface) 0%, var(--bg2) 100%);
+    border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:14px}
+  .toolsbar .tlbl{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.6px;font-size:11.5px;
+    color:var(--faint);margin-bottom:9px}
+  .toolrow{display:flex;flex-wrap:wrap;gap:8px}
+  .tool{display:inline-flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line2);
+    color:var(--txt);text-decoration:none;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:500;transition:.15s}
+  .tool:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .tool .k{font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;font-family:'Barlow Condensed';
+    padding:1px 5px;border-radius:4px}
+  .tool .k.q{background:var(--green-soft);color:var(--green)}
+  .tool .k.l{background:var(--gold-soft);color:var(--gold)}
+  .tool .k.e{background:var(--blue-soft);color:var(--blue)}
+
+  /* per-discipline study links */
+  .studylinks{display:flex;flex-wrap:wrap;gap:7px;padding:10px 8px 12px;border-bottom:1px solid #1d2733;margin-bottom:2px}
+  .slk{display:inline-flex;align-items:center;gap:6px;text-decoration:none;border-radius:8px;padding:6px 10px;
+    font-size:12px;font-weight:500;border:1px solid var(--line2);background:var(--bg2);color:var(--txt);transition:.15s}
+  .slk:hover{transform:translateY(-1px)}
+  .slk.aula{border-color:#3a2e44;background:#1d1726;color:#c9a6e8}
+  .slk.aula:hover{border-color:#a76fe0}
+  .slk.lei{border-color:#5a481f;background:var(--gold-soft);color:var(--gold)}
+  .slk.lei:hover{border-color:var(--gold)}
+  .slk.quest{border-color:#1f4a36;background:var(--green-soft);color:var(--green)}
+  .slk.quest:hover{border-color:var(--green)}
+  .slk.estr{border-color:#1c3c56;background:var(--blue-soft);color:var(--blue)}
+  .slk.estr:hover{border-color:var(--blue)}
+  .slk svg{flex:none;opacity:.85}
+
+  @media(max-width:640px){
+    body{padding:14px 10px 50px}
+    h1{font-size:24px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .dprog{width:78px}
+    .toggles{gap:4px}
+    .tg{width:27px;height:24px}
+    .badge{min-width:0;flex:1}
+    .rankrow{gap:12px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Concurso Público · CFP · QPPMC</p>
+    <h1>Edital Verticalizado — Soldado PMDF</h1>
+    <p class="sub">Conteúdo programático quebrado até o subtópico. Marque <b>T</b>eoria, <b>R</b>evisão e <b>Q</b>uestões em cada item — a barra e a patente sobem sozinhas. Tudo salva automático neste aparelho.</p>
+
+    <div class="rankrow">
+      <div class="badge">
+        <div class="chevrons" id="chev">›</div>
+        <div>
+          <div class="rank-label">Sua patente</div>
+          <div class="rank-name" id="rankName">Recruta</div>
+          <div class="nextrank" id="nextRank">—</div>
+        </div>
+      </div>
+      <div class="progwrap">
+        <div class="progtop">
+          <span class="lbl">Progresso geral do edital</span>
+          <span class="pct" id="pct">0%</span>
+        </div>
+        <div class="bar"><i id="barFill"></i></div>
+        <div class="stats">
+          <div class="stat dom"><b id="sDom">0</b><span>Dominados</span></div>
+          <div class="stat rev"><b id="sRev">0</b><span>Revisar</span></div>
+          <div class="stat est"><b id="sEst">0</b><span>Estudando</span></div>
+          <div class="stat tot"><b id="sTot">0</b><span>Tópicos</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" placeholder="Buscar tópico, lei, assunto…" autocomplete="off">
+    </div>
+    <div class="chips" id="filters">
+      <span class="chip on" data-f="all">Todos</span>
+      <span class="chip" data-f="nuc">Núcleo comum</span>
+      <span class="chip" data-f="pend">Pendentes</span>
+      <span class="chip" data-f="rev">Para revisar</span>
+      <span class="chip" data-f="dom">Dominados</span>
+    </div>
+    <button class="miniact" id="expandAll">Expandir tudo</button>
+    <button class="miniact" id="backup">⬇ Backup</button>
+    <button class="miniact" id="restore">⬆ Restaurar</button>
+    <input type="file" id="restoreFile" accept="application/json" style="display:none">
+    <button class="miniact" id="reset">Zerar</button>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--blue)"></i>T = teoria estudada</span>
+    <span><i style="background:var(--amber)"></i>R = revisão feita</span>
+    <span><i style="background:var(--green)"></i>Q = questões resolvidas</span>
+    <span><i style="background:#11283a"></i>Núcleo comum = também cai na PRF (Cebraspe)</span>
+  </div>
+
+  <div class="toolsbar" id="toolsbar"></div>
+
+  <div id="content"></div>
+
+  <footer>
+    <span class="saved" id="saved"><i></i> salvo</span><br>
+    Base: Edital nº 04/2023-DGP/PMDF (Instituto AOCP). Para o certame de 2027 confira a banca e o conteúdo no edital novo.<br>
+    Peso da prova objetiva (80 questões): Português 10 · Inglês 4 · Matemática/RLM 9 · Atualidades 7 · Legislação PMDF 10 · Conhecimentos Específicos 40.
+  </footer>
+</div>
+
+<script>
+/* ============ DADOS DO EDITAL (verticalizado) ============ */
+const EDITAL = [
+ {block:"Conhecimentos Gerais", disciplines:[
+  {id:"port", nm:"Língua Portuguesa", q:10, nuc:true, topics:[
+    "Compreensão e intelecção de textos",
+    "Tipologia textual",
+    "Ortografia",
+    "Acentuação gráfica",
+    "Emprego do sinal indicativo de crase",
+    "Formação, classe e emprego de palavras",
+    "Sintaxe da oração e do período",
+    "Pontuação",
+    "Concordância nominal e verbal",
+    "Colocação pronominal",
+    "Regência nominal e verbal",
+    "Equivalência e transformação de estruturas",
+    "Paralelismo sintático",
+    "Relações de sinonímia e antonímia",
+    "Correspondência oficial (Manual da Presidência da República)"
+  ]},
+  {id:"ing", nm:"Língua Inglesa", q:4, nuc:false, topics:[
+    "Compreensão de textos escritos em inglês",
+    "Itens gramaticais relevantes à compreensão semântica",
+    "Pronomes (pessoais, oblíquos, demonstrativos, possessivos, reflexivos)",
+    "Artigos",
+    "Substantivos",
+    "Adjetivos",
+    "Advérbios",
+    "Verbos",
+    "Tempos e aspectos verbais (Simple, Continuous, Perfect — present/past/future)",
+    "Verbos modais (can, could, should, may, might, must, have to, would, need, had better)",
+    "Preposições",
+    "Prefixos e sufixos",
+    "Voz passiva",
+    "Orações subordinadas e conjunções",
+    "Orações subordinadas relativas (relative clauses)",
+    "Discursos direto e indireto",
+    "Conditionals (zero, first, second, third e mixed)",
+    "Phrasal verbs",
+    "Verb patterns (verb + ing or infinitive)",
+    "Question tags"
+  ]},
+  {id:"mat", nm:"Matemática e Raciocínio Lógico", q:9, nuc:true, topics:[
+    {t:"Estruturas lógicas", subs:["Proposições simples e compostas","Conectivos","Equivalências lógicas","Implicações lógicas","Estrutura lógica de relações arbitrárias"]},
+    {t:"Lógica de argumentação", subs:["Analogias","Inferências","Deduções","Conclusões","Processo lógico de hipóteses a conclusões válidas"]},
+    "Diagramas lógicos",
+    {t:"Problemas de contagem", subs:["Princípio Fundamental da Contagem","Permutação simples","Permutação com elementos repetidos","Arranjo simples","Combinação simples"]},
+    {t:"Probabilidades", subs:["Probabilidade da ocorrência de um evento","Problemas envolvendo probabilidades"]},
+    {t:"Razão, proporção e regra de três", subs:["Grandezas diretamente proporcionais","Grandezas inversamente proporcionais","Regra de três simples","Regra de três composta","Porcentagem","Resolução de problemas"]},
+    {t:"Sistemas de medidas", subs:["Comprimento","Área/superfície","Volume/capacidade"]},
+    "Áreas",
+    "Volumes"
+  ]},
+  {id:"atu", nm:"Atualidades", q:7, nuc:false, topics:[
+    "Realidade étnica, social, histórica, geográfica, cultural, política e econômica do DF e da RIDE",
+    "Conexão do DF/RIDE com o Brasil"
+  ]},
+  {id:"leg", nm:"Legislação Aplicável à PMDF", q:10, nuc:false, topics:[
+    "Lei Orgânica do Distrito Federal",
+    "Lei nº 6.450/1977 — Organização Básica da PMDF",
+    "Lei nº 7.289/1984 — Estatuto dos Policiais-Militares da PMDF",
+    "Lei nº 12.086/2009 — Militares da PMDF e CBMDF",
+    "Decreto nº 88.777/1983 — Regulamento (R-200)",
+    "Decreto nº 10.443/2020 — Organização Básica da PMDF",
+    "Decreto nº 41.167/2020 — Regulamenta art. 48, II, da Lei 6.450/77"
+  ]}
+ ]},
+ {block:"Conhecimentos Específicos", disciplines:[
+  {id:"const", nm:"Direito Constitucional e Direitos Humanos", q:null, nuc:true, topics:[
+    "Constituição: conceito, estrutura, elementos e classificação",
+    "Poder Constituinte",
+    "Princípios fundamentais da República Federativa do Brasil",
+    {t:"Direitos e garantias fundamentais", subs:["Direitos e deveres individuais e coletivos","Direitos sociais","Nacionalidade","Direitos políticos e partidos políticos","Remédios constitucionais (HC, MS, MI, habeas data, ação popular)"]},
+    {t:"Organização do Estado", subs:["Organização político-administrativa","União, Estados, DF, Municípios e Territórios","Repartição de competências","Intervenção","Administração Pública: disposições gerais; servidores e militares"]},
+    {t:"Organização dos Poderes", subs:["Poder Legislativo","Poder Executivo","Poder Judiciário","Funções essenciais à Justiça"]},
+    "Defesa do Estado e das instituições democráticas",
+    "Teoria geral dos Direitos Humanos (conceito, estrutura, fundamento, classificação)",
+    "Evolução histórica e gerações de direitos humanos",
+    "Direitos e garantias processuais; tratados internacionais de DH",
+    "Natureza jurídica da incorporação de normas internacionais de DH ao direito interno",
+    "Declaração Universal dos Direitos Humanos (ONU, 1948)",
+    "Convenção contra a Tortura e outros Tratamentos Cruéis (1984)",
+    "Convenção Americana sobre DH (Pacto de São José — Dec. 678/1992)",
+    "Bloco de constitucionalidade e controle de convencionalidade",
+    "Conselho Nacional dos Direitos Humanos — CNDH (Lei 12.986/2014)",
+    "Lei nº 13.060/2014 (uso de instrumentos de menor potencial ofensivo)",
+    "Código de Conduta para Aplicação da Lei (Res. ONU 34/169 de 1979)",
+    "Sistema Interamericano de Direitos Humanos"
+  ]},
+  {id:"adm", nm:"Direito Administrativo", q:null, nuc:true, topics:[
+    "Regime jurídico-administrativo e princípios",
+    "Poderes e deveres da Administração (regulamentar, hierárquico, disciplinar, de polícia; uso e abuso; discricionariedade e vinculação)",
+    "Organização administrativa (centralização/descentralização; concentração/desconcentração; direta e indireta)",
+    "Atos administrativos: conceito, requisitos, atributos, classificação, espécies, extinção e convalidação",
+    "Responsabilidade civil do Estado",
+    "Improbidade administrativa (Lei nº 8.429/1992)",
+    "Processo administrativo (Lei nº 9.784/1999)",
+    "Licitações e contratos administrativos (Lei nº 14.133/2021)",
+    "Serviços públicos (conceito, princípios, concessão, permissão, autorização, PPP)",
+    "Agentes públicos (espécies, cargo/emprego/função, concurso, remuneração, acumulação)",
+    "Controle da Administração (administrativo, judicial, legislativo)",
+    "Bens públicos",
+    "Lei de Acesso à Informação (Lei nº 12.527/2011)"
+  ]},
+  {id:"pen", nm:"Direito Penal", q:null, nuc:false, topics:[
+    "Princípios aplicáveis ao Direito Penal",
+    {t:"Lei penal", subs:["Lei penal em branco","Lei penal no tempo e no espaço","Conflito aparente de leis penais","Tempo e lugar do crime","Territorialidade e extraterritorialidade","Lei penal excepcional e temporária"]},
+    {t:"Teoria geral do crime", subs:["Conceito, objeto e sujeitos","Classificação dos crimes","Fato típico (conduta, resultado, nexo, tipicidade)","Teoria do tipo","Crime doloso, culposo e preterdoloso","Erro de tipo, de proibição, descriminantes putativas, crime putativo","Iter criminis","Consumação e tentativa","Desistência, arrependimento, crime impossível","Ilicitude e causas de exclusão","Excesso","Culpabilidade","Imputabilidade, consciência da ilicitude, exigibilidade","Concurso de pessoas","Crime e contravenção penal"]},
+    {t:"Das penas", subs:["Privativa de liberdade","Restritivas de direitos","Multa","Aplicação e limite","Concurso de crimes","Suspensão condicional da pena","Livramento condicional","Efeitos da condenação","Reabilitação e medidas de segurança"]},
+    "Extinção da punibilidade",
+    {t:"Crimes na parte especial", subs:["Contra a pessoa","Contra o patrimônio","Contra a dignidade sexual","Contra a incolumidade pública","Contra a paz pública","Contra a fé pública","Contra a administração pública","Contra o Estado Democrático de Direito"]},
+    "Lei nº 13.869/2019 — Abuso de Autoridade",
+    "Lei nº 7.716/1989 — Crimes de Preconceito de Raça ou Cor",
+    "Lei nº 8.069/1990 — ECA (ato infracional e crimes em espécie)",
+    "Lei nº 8.072/1990 — Crimes Hediondos",
+    "Lei nº 9.503/1997 — Crimes de Trânsito",
+    "Lei nº 9.455/1997 — Tortura",
+    "Lei nº 9.605/1998 — Crimes Ambientais",
+    "Lei nº 10.826/2003 — Estatuto do Desarmamento",
+    "Lei nº 11.343/2006 — Lei de Drogas"
+  ]},
+  {id:"procpen", nm:"Direito Processual Penal", q:null, nuc:false, topics:[
+    "Noções introdutórias (princípios, sistemas, lei processual no tempo/espaço/pessoas, fontes, interpretação)",
+    {t:"Investigação preliminar", subs:["Inquérito policial","Termo circunstanciado de ocorrência","Demais investigações preliminares","Acordo de não persecução penal","Controle externo da atividade policial"]},
+    "Ação penal e ação civil ex delicto",
+    "Jurisdição e competência criminal",
+    {t:"Provas", subs:["Teoria geral das provas","Meios de prova e de obtenção de prova"]},
+    "Medidas cautelares pessoais (prisões e diversas da prisão)",
+    "Liberdade provisória",
+    "Medidas cautelares reais (assecuratórias)",
+    "Procedimento comum (ordinário, sumário, sumaríssimo)",
+    "Nulidades",
+    "Lei nº 7.960/1989 — Prisão Temporária",
+    "Lei nº 9.099/1995 — Juizados Especiais Criminais",
+    "Lei nº 9.296/1996 — Interceptação Telefônica",
+    "Lei nº 11.340/2006 — Maria da Penha",
+    "Lei nº 12.850/2013 — Organizações Criminosas",
+    "Lei nº 12.037/2009 — Identificação Criminal"
+  ]},
+  {id:"penmil", nm:"Direito Penal Militar", q:null, nuc:false, topics:[
+    "Aplicação da lei penal militar",
+    "Crime",
+    "Imputabilidade penal",
+    "Concurso de agentes",
+    "Penas principais",
+    "Aplicação da pena",
+    "Suspensão condicional da pena",
+    "Livramento condicional",
+    "Penas acessórias",
+    "Efeitos da condenação",
+    "Medidas de segurança",
+    "Ação penal",
+    "Extinção da punibilidade",
+    "Crimes militares em tempo de paz",
+    "Crimes propriamente militares",
+    "Crimes impropriamente militares"
+  ]},
+  {id:"procpenmil", nm:"Direito Processual Penal Militar", q:null, nuc:false, topics:[
+    "Lei de Processo Penal Militar e sua aplicação",
+    "Polícia judiciária militar",
+    "Inquérito policial militar",
+    "Ação penal militar e seu exercício",
+    "Processo",
+    "Denúncia",
+    "Jurisdição e competência",
+    "Questões prejudiciais e incidentes",
+    "Medidas preventivas e assecuratórias",
+    "Atos probatórios",
+    "Processo ordinário",
+    "Processos especiais",
+    "Nulidades e recursos"
+  ]},
+  {id:"crimi", nm:"Criminologia", q:null, nuc:false, topics:[
+    {t:"Criminologia", subs:["Conceito e características","Objeto","Método e finalidade","Funções","Classificação"]},
+    {t:"História da criminologia", subs:["Escola Clássica","Escola Positiva","Escola de Política Criminal","Terza Scuola"]},
+    "Estatística criminal, cifra negra, cifra dourada e prognóstico criminal",
+    "Sociologia criminal",
+    "Vitimologia",
+    "Prevenção criminal",
+    "Fatores sociais de criminalidade",
+    "Instâncias de controle",
+    "Crimes do colarinho branco"
+  ]}
+ ]}
+];
+
+/* ============ LINKS GRATUITOS ============ */
+const YT="https://www.youtube.com/results?search_query=";
+const QC="https://www.qconcursos.com/questoes-de-concursos/questoes";
+const aula=(q,label)=>({kind:"aula",label:label||"Aulas",url:YT+q});
+const lei =(label,url)=>({kind:"lei",label:label,url:url});
+const quest=()=>({kind:"quest",label:"Questões",url:QC});
+
+const EC="https://www.estrategiaconcursos.com.br/app/";
+const estr=(label)=>({kind:"estr",label:label,url:EC});
+
+const LINKS={
+ port:[estr("Estratégia — PM-DF Português"),{kind:"aula",label:"Prof. Noslen",url:"https://www.youtube.com/channel/UCwSxSJqGpSRpEsq5-YUbM8g"},quest()],
+ ing:[estr("Estratégia — PM-DF Inglês"),aula("ingl%C3%AAs+reading+interpreta%C3%A7%C3%A3o+concurso","Inglês (reading)"),quest()],
+ mat:[estr("Estratégia — PM-DF Matemática e RLM"),aula("racioc%C3%ADnio+l%C3%B3gico+matem%C3%A1tica+concurso+aula","Aulas de RLM"),quest()],
+ atu:[estr("Estratégia — Passo Estratégico de Atualidades"),{kind:"lei",label:"Atlas do DF (CODEPLAN)",url:"https://www.google.com/search?q=Atlas+do+Distrito+Federal+CODEPLAN+pdf"},aula("atualidades+Distrito+Federal+RIDE+concurso","Aulas")],
+ leg:[estr("Estratégia — Legislação Aplicável à PMDF"),lei("Leis da PMDF (SINJ-DF)","https://www.sinj.df.gov.br/sinj/Norma/66634/LODF"),aula("legisla%C3%A7%C3%A3o+PMDF+estatuto+concurso+aula","Aulas"),quest()],
+ const:[estr("Estratégia — Direito Constitucional"),lei("CF/88 — lei seca","http://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"),aula("direito+constitucional+concurso+aula","Aulas"),quest()],
+ adm:[estr("Estratégia — Direito Administrativo"),lei("Lei 14.133 + correlatas","https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm"),aula("direito+administrativo+concurso+aula","Aulas"),quest()],
+ pen:[estr("Estratégia — Direito Penal"),estr("Estratégia — Legislação Penal Especial"),lei("Código Penal","https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm"),aula("direito+penal+concurso+aula","Aulas"),quest()],
+ procpen:[estr("Estratégia — Direito Processual Penal"),lei("CPP — lei seca","https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm"),aula("direito+processual+penal+concurso+aula","Aulas"),quest()],
+ penmil:[estr("Estratégia — Direito Penal Militar"),lei("Código Penal Militar","https://www.planalto.gov.br/ccivil_03/decreto-lei/del1001.htm"),aula("direito+penal+militar+concurso+aula","Aulas"),quest()],
+ procpenmil:[estr("Estratégia — Direito Processual Penal Militar"),lei("CPP Militar","https://www.planalto.gov.br/ccivil_03/decreto-lei/del1002.htm"),aula("processo+penal+militar+concurso+aula","Aulas"),quest()],
+ crimi:[estr("Estratégia — Criminologia"),aula("criminologia+concurso+aula","Aulas"),quest()]
+};
+
+const TOOLS=[
+ {k:"e",label:"Estratégia — Minhas Matrículas (painel geral)",url:EC},
+ {k:"e",label:"Estratégia — Bizu Estratégico (revisão geral)",url:EC},
+ {k:"q",label:"Questões grátis — QConcursos (10/dia)",url:"https://www.qconcursos.com/questoes-de-concursos/questoes"},
+ {k:"q",label:"Provas p/ baixar — PCI Concursos",url:"https://www.pciconcursos.com.br/provas/"},
+ {k:"l",label:"Lei seca federal — Planalto",url:"https://www.planalto.gov.br"},
+ {k:"l",label:"Leis do DF e da PMDF — SINJ-DF",url:"https://www.sinj.df.gov.br"}
+];
+
+const EXT='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:4px"><path d="M7 17 17 7M9 7h8v8"/></svg>';
+function renderTools(){
+  const tb=document.getElementById("toolsbar");
+  tb.innerHTML='<div class="tlbl">Ferramentas gerais · badges azuis = curso pago (Estratégia), resto é grátis</div>';
+  const row=document.createElement("div"); row.className="toolrow";
+  TOOLS.forEach(t=>{
+    const a=document.createElement("a"); a.className="tool"; a.href=t.url; a.target="_blank"; a.rel="noopener";
+    const kl=t.k==="q"?"Q":(t.k==="e"?"EC":"Lei");
+    a.innerHTML='<span class="k '+t.k+'">'+kl+'</span>'+t.label+EXT;
+    row.appendChild(a);
+  });
+  tb.appendChild(row);
+}
+function discLinksEl(id){
+  const arr=LINKS[id]; if(!arr) return null;
+  const wrap=document.createElement("div"); wrap.className="studylinks";
+  const lbl=document.createElement("span");
+  lbl.style.cssText="font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.2px;font-size:10.5px;color:var(--faint);align-self:center;margin-right:2px";
+  lbl.textContent="Onde estudar:"; wrap.appendChild(lbl);
+  const ic={aula:'▶',lei:'§',quest:'✓',estr:'🎓'};
+  arr.forEach(l=>{
+    const a=document.createElement("a"); a.className="slk "+l.kind; a.href=l.url; a.target="_blank"; a.rel="noopener";
+    a.innerHTML='<span style="font-weight:800">'+ic[l.kind]+'</span>'+l.label+EXT;
+    wrap.appendChild(a);
+  });
+  return wrap;
+}
+
+const RANKS = [
+  {min:0,   name:"Recruta",            chev:"·"},
+  {min:8,   name:"Aluno-Soldado",      chev:"›"},
+  {min:22,  name:"Soldado 2ª Classe",  chev:"›"},
+  {min:38,  name:"Soldado 1ª Classe",  chev:"››"},
+  {min:54,  name:"Cabo",               chev:"››"},
+  {min:68,  name:"3º Sargento",        chev:"›››"},
+  {min:80,  name:"2º Sargento",        chev:"›››"},
+  {min:90,  name:"1º Sargento",        chev:"››››"},
+  {min:100, name:"Subtenente — APROVADA",chev:"★"}
+];
+
+/* ============ STATE + STORAGE ============ */
+const KEY = "pmdf_verticalizado_v1";
+let state = {};        // { leafId: {t,r,q} }
+let memOnly = false;
+const $ = s => document.querySelector(s);
+
+// stable id per leaf
+function leafId(discId, ti, si){ return discId+"."+ti+(si!=null?("."+si):""); }
+function getCell(id){ return state[id] || (state[id]={t:false,r:false,q:false}); }
+function getVideos(id){ const c=getCell(id); if(!c.videos) c.videos=[]; return c.videos; }
+
+// collect all leaf ids
+let ALL_LEAVES = [];
+EDITAL.forEach(b=>b.disciplines.forEach(d=>{
+  d.topics.forEach((t,ti)=>{
+    if(typeof t==="object"){ t.subs.forEach((s,si)=> ALL_LEAVES.push(leafId(d.id,ti,si))); }
+    else ALL_LEAVES.push(leafId(d.id,ti));
+  });
+}));
+
+/* Portable storage: tries Claude storage, then browser localStorage, then memory.
+   Works the same whether opened inside Claude or hosted on GitHub Pages. */
+const Store={
+  async get(k){
+    try{ if(window.storage&&window.storage.get){ const r=await window.storage.get(k); if(r&&r.value!=null) return r.value; } }catch(e){}
+    try{ return localStorage.getItem(k); }catch(e){ return null; }
+  },
+  async set(k,v){
+    try{ if(window.storage&&window.storage.set){ await window.storage.set(k,v); } }catch(e){}
+    try{ localStorage.setItem(k,v); }catch(e){ memOnly=true; }
+  },
+  async del(k){
+    try{ if(window.storage&&window.storage.delete){ await window.storage.delete(k); } }catch(e){}
+    try{ localStorage.removeItem(k); }catch(e){}
+  }
+};
+async function load(){
+  try{ const v=await Store.get(KEY); if(v) state=JSON.parse(v); }catch(e){}
+}
+let saveTimer=null;
+async function save(){
+  flagSaved();
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{ Store.set(KEY, JSON.stringify(state)); },250);
+}
+function flagSaved(){ const s=$("#saved"); s.classList.add("show"); clearTimeout(flagSaved._t); flagSaved._t=setTimeout(()=>s.classList.remove("show"),1100); }
+
+/* ============ STATUS HELPERS ============ */
+// status of a leaf: 0 none, 1 estudando (T), 2 revisar (T+R or partial), 3 dominado (T+R+Q)
+function leafStatus(id){
+  const c=getCell(id); const n=(c.t?1:0)+(c.r?1:0)+(c.q?1:0);
+  if(n===0) return 0;
+  if(c.t&&c.r&&c.q) return 3;
+  if(c.t&&!c.r) return 1;
+  return 2;
+}
+function progressOfDisc(d){
+  let on=0,total=0;
+  d.topics.forEach((t,ti)=>{
+    if(typeof t==="object"){ t.subs.forEach((s,si)=>{const c=getCell(leafId(d.id,ti,si));total+=3;on+=(c.t?1:0)+(c.r?1:0)+(c.q?1:0);}); }
+    else { const c=getCell(leafId(d.id,ti));total+=3;on+=(c.t?1:0)+(c.r?1:0)+(c.q?1:0); }
+  });
+  return {on,total,pct: total?Math.round(on/total*100):0};
+}
+
+/* ============ RENDER ============ */
+const content = $("#content");
+function tgEl(id,key,small){
+  const c=getCell(id);
+  const b=document.createElement("button");
+  b.className="tg "+key+(c[key]?" on":""); b.textContent=key.toUpperCase();
+  b.title={t:"Teoria estudada",r:"Revisão feita",q:"Questões resolvidas"}[key];
+  b.addEventListener("click",ev=>{
+    ev.stopPropagation();
+    const cell=getCell(id); cell[key]=!cell[key];
+    b.classList.toggle("on",cell[key]);
+    save(); refreshAggregates(); refreshRowState(id);
+  });
+  return b;
+}
+
+function vidBtnLabel(id){
+  const arr=getVideos(id); if(!arr.length) return "🎬 vídeos";
+  const done=arr.filter(v=>v).length;
+  return "🎬 "+done+"/"+arr.length;
+}
+function renderVidPanel(id, panel){
+  panel.innerHTML="";
+  const arr=getVideos(id);
+  if(arr.length){
+    const list=document.createElement("div"); list.className="vidlist";
+    arr.forEach((done,i)=>{
+      const it=document.createElement("div"); it.className="vid-item"+(done?" done":"");
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=done;
+      cb.addEventListener("change",()=>{
+        const a=getVideos(id); a[i]=cb.checked; it.classList.toggle("done",cb.checked);
+        save(); updateVidBtn(id);
+      });
+      const lbl=document.createElement("span"); lbl.className="vlabel"; lbl.textContent="Vídeo "+(i+1);
+      const del=document.createElement("button"); del.className="vdel"; del.textContent="×"; del.title="Remover";
+      del.addEventListener("click",()=>{
+        const a=getVideos(id); a.splice(i,1); save(); renderVidPanel(id,panel); updateVidBtn(id);
+      });
+      it.appendChild(cb); it.appendChild(lbl); it.appendChild(del);
+      list.appendChild(it);
+    });
+    panel.appendChild(list);
+  } else {
+    const emp=document.createElement("div"); emp.className="vidempty"; emp.textContent="Nenhum vídeo adicionado ainda.";
+    panel.appendChild(emp);
+  }
+  const add=document.createElement("button"); add.className="addvid"; add.textContent="+ vídeo assistido";
+  add.addEventListener("click",()=>{
+    const a=getVideos(id); a.push(true); save(); renderVidPanel(id,panel); updateVidBtn(id);
+  });
+  panel.appendChild(add);
+}
+function updateVidBtn(id){
+  const btn=document.querySelector('.vidbtn[data-vidbtn="'+CSS.escape(id)+'"]');
+  if(!btn) return;
+  btn.textContent=vidBtnLabel(id);
+  btn.classList.toggle("has", getVideos(id).length>0);
+}
+function makeVideoUI(id){
+  const btn=document.createElement("button"); btn.className="vidbtn"; btn.dataset.vidbtn=id;
+  btn.textContent=vidBtnLabel(id);
+  btn.classList.toggle("has", getVideos(id).length>0);
+  const panel=document.createElement("div"); panel.className="vidpanel"; panel.dataset.vidpanel=id;
+  renderVidPanel(id,panel);
+  btn.addEventListener("click",ev=>{
+    ev.stopPropagation();
+    panel.classList.toggle("open");
+  });
+  return {btn,panel};
+}
+function build(){
+  content.innerHTML="";
+  EDITAL.forEach(b=>{
+    const h=document.createElement("div"); h.className="blockhead"; h.textContent=b.block;
+    content.appendChild(h);
+    b.disciplines.forEach(d=>{
+      const card=document.createElement("div"); card.className="disc"; card.dataset.disc=d.id;
+      // head
+      const head=document.createElement("div"); head.className="dhead";
+      const arrow=document.createElement("span"); arrow.className="arrow"; arrow.textContent="▶";
+      const title=document.createElement("div"); title.className="dtitle";
+      const nm=document.createElement("div"); nm.className="nm";
+      nm.appendChild(document.createTextNode(d.nm));
+      if(d.q){const t=document.createElement("span");t.className="tag q";t.textContent=d.q+" questões";nm.appendChild(t);}
+      if(d.nuc){const t=document.createElement("span");t.className="tag nuc";t.textContent="núcleo comum";nm.appendChild(t);}
+      const meta=document.createElement("div"); meta.className="dmeta"; meta.dataset.meta=d.id;
+      title.appendChild(nm); title.appendChild(meta);
+      const prog=document.createElement("div"); prog.className="dprog";
+      const num=document.createElement("div"); num.className="num"; num.dataset.num=d.id; num.textContent="0%";
+      const dbar=document.createElement("div"); dbar.className="dbar"; const dfill=document.createElement("i"); dfill.dataset.fill=d.id; dbar.appendChild(dfill);
+      prog.appendChild(num); prog.appendChild(dbar);
+      head.appendChild(arrow); head.appendChild(title); head.appendChild(prog);
+      head.addEventListener("click",()=>card.classList.toggle("open"));
+      card.appendChild(head);
+      // body
+      const body=document.createElement("div"); body.className="dbody";
+      const dl=discLinksEl(d.id); if(dl) body.appendChild(dl);
+      d.topics.forEach((t,ti)=>{
+        const isObj = typeof t==="object";
+        const row=document.createElement("div"); row.className="topic"; 
+        const trow=document.createElement("div"); trow.className="trow";
+        const tnum=document.createElement("div"); tnum.className="tnum"; tnum.textContent=(ti+1)+".";
+        const lab=document.createElement("div"); lab.className="tlabel"; lab.textContent=isObj?t.t:t;
+        trow.appendChild(tnum); trow.appendChild(lab);
+        let leafVid=null;
+        if(!isObj){
+          const id=leafId(d.id,ti); row.dataset.leaf=id;
+          row.dataset.search=(t).toLowerCase();
+          const tg=document.createElement("div"); tg.className="toggles";
+          ["t","r","q"].forEach(k=>tg.appendChild(tgEl(id,k)));
+          leafVid=makeVideoUI(id); tg.appendChild(leafVid.btn);
+          trow.appendChild(tg);
+        } else {
+          row.dataset.search=(t.t+" "+t.subs.join(" ")).toLowerCase();
+        }
+        row.appendChild(trow);
+        if(leafVid) row.appendChild(leafVid.panel);
+        if(isObj){
+          const subs=document.createElement("div"); subs.className="subs";
+          t.subs.forEach((s,si)=>{
+            const id=leafId(d.id,ti,si);
+            const si_=document.createElement("div"); si_.className="sub-i"; si_.dataset.leaf=id; si_.dataset.search=s.toLowerCase();
+            const dot=document.createElement("span"); dot.className="sdot";
+            const sl=document.createElement("div"); sl.className="slabel"; sl.textContent=s;
+            const tg=document.createElement("div"); tg.className="toggles";
+            ["t","r","q"].forEach(k=>tg.appendChild(tgEl(id,k)));
+            const svid=makeVideoUI(id); tg.appendChild(svid.btn);
+            si_.appendChild(dot); si_.appendChild(sl); si_.appendChild(tg);
+            subs.appendChild(si_);
+            subs.appendChild(svid.panel);
+          });
+          row.appendChild(subs);
+        }
+        body.appendChild(row);
+      });
+      card.appendChild(body);
+      content.appendChild(card);
+    });
+  });
+  // init row states
+  ALL_LEAVES.forEach(refreshRowState);
+  refreshAggregates();
+}
+
+function refreshRowState(id){
+  const st=leafStatus(id);
+  const row=document.querySelector('[data-leaf="'+CSS.escape(id)+'"]');
+  if(!row) return;
+  row.classList.toggle("done", st===3);
+}
+
+function refreshAggregates(){
+  // discipline bars
+  let totOn=0,totAll=0, dom=0, rev=0, est=0, totLeaves=0;
+  EDITAL.forEach(b=>b.disciplines.forEach(d=>{
+    const p=progressOfDisc(d); totOn+=p.on; totAll+=p.total;
+    const num=document.querySelector('[data-num="'+d.id+'"]');
+    const fill=document.querySelector('[data-fill="'+d.id+'"]');
+    const meta=document.querySelector('[data-meta="'+d.id+'"]');
+    if(num) num.textContent=p.pct+"%";
+    if(fill) fill.style.width=p.pct+"%";
+    // count leaves & statuses for this disc
+    let leaves=0,dDom=0;
+    d.topics.forEach((t,ti)=>{
+      if(typeof t==="object") t.subs.forEach((s,si)=>{leaves++;totLeaves++;const st=leafStatus(leafId(d.id,ti,si));if(st===3){dom++;dDom++}else if(st===2)rev++;else if(st===1)est++;});
+      else {leaves++;totLeaves++;const st=leafStatus(leafId(d.id,ti));if(st===3){dom++;dDom++}else if(st===2)rev++;else if(st===1)est++;}
+    });
+    if(meta) meta.textContent=dDom+" de "+leaves+" tópicos dominados";
+  }));
+  const pct = totAll?Math.round(totOn/totAll*100):0;
+  $("#pct").textContent=pct+"%"; $("#barFill").style.width=pct+"%";
+  $("#sDom").textContent=dom; $("#sRev").textContent=rev; $("#sEst").textContent=est; $("#sTot").textContent=totLeaves;
+  // rank
+  let r=RANKS[0], next=null;
+  for(let i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].min){ r=RANKS[i]; next=RANKS[i+1]||null; } }
+  $("#rankName").textContent=r.name; $("#chev").textContent=r.chev;
+  $("#nextRank").textContent = next ? ("Próxima: "+next.name+" aos "+next.min+"%") : "Patente máxima atingida 🎖";
+}
+
+/* ============ FILTERS + SEARCH ============ */
+let curFilter="all", curSearch="";
+function applyView(){
+  EDITAL.forEach(b=>b.disciplines.forEach(d=>{
+    const card=document.querySelector('[data-disc="'+d.id+'"]');
+    let anyVisible=false;
+    const rows=card.querySelectorAll('.topic');
+    rows.forEach(row=>{
+      // a topic row: visible if its own leaf or any sub passes
+      const leaf=row.dataset.leaf;
+      let visible=false;
+      if(leaf){ visible = passes(leaf, row.dataset.search); }
+      else {
+        // parent w/ subs
+        const subs=row.querySelectorAll('.sub-i'); let subVis=false;
+        subs.forEach(si=>{
+          const ok=passes(si.dataset.leaf, si.dataset.search);
+          si.classList.toggle("hidden",!ok);
+          if(ok) subVis=true;
+        });
+        // also allow parent text match to reveal all subs
+        const textMatch = curSearch && row.dataset.search.includes(curSearch);
+        if(textMatch && curFilter==="all"){ subs.forEach(si=>si.classList.remove("hidden")); subVis=true; }
+        visible=subVis;
+      }
+      row.classList.toggle("hidden",!visible);
+      if(visible) anyVisible=true;
+    });
+    // discipline filter (núcleo)
+    let discPass=true;
+    if(curFilter==="nuc" && !d.nuc) discPass=false;
+    card.classList.toggle("hidden", !anyVisible || !discPass);
+    // auto-open when searching/filtering
+    if((curSearch||curFilter!=="all") && anyVisible && discPass) card.classList.add("open");
+  }));
+  // empty state
+  const visibleCards=document.querySelectorAll('.disc:not(.hidden)').length;
+  let emp=$("#emptyState");
+  if(visibleCards===0){
+    if(!emp){emp=document.createElement("div");emp.id="emptyState";emp.className="empty";emp.textContent="Nenhum tópico encontrado com esse filtro/busca.";content.appendChild(emp);}
+  } else if(emp){ emp.remove(); }
+}
+function passes(leaf, searchText){
+  if(curSearch && !searchText.includes(curSearch)) return false;
+  if(curFilter==="all"||curFilter==="nuc") return true;
+  const st=leafStatus(leaf);
+  if(curFilter==="pend") return st===0 || st===1; // não iniciado ou em andamento
+  if(curFilter==="rev")  return st===2;
+  if(curFilter==="dom")  return st===3;
+  return true;
+}
+
+/* ============ EVENTS ============ */
+$("#filters").addEventListener("click",e=>{
+  const chip=e.target.closest(".chip"); if(!chip) return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
+  chip.classList.add("on"); curFilter=chip.dataset.f; applyView();
+});
+$("#search").addEventListener("input",e=>{ curSearch=e.target.value.trim().toLowerCase(); applyView(); });
+let allOpen=false;
+$("#expandAll").addEventListener("click",()=>{
+  allOpen=!allOpen;
+  document.querySelectorAll(".disc:not(.hidden)").forEach(c=>c.classList.toggle("open",allOpen));
+  $("#expandAll").textContent=allOpen?"Recolher tudo":"Expandir tudo";
+});
+$("#reset").addEventListener("click",async()=>{
+  if(!confirm("Zerar todo o progresso marcado? Não dá pra desfazer.")) return;
+  state={};
+  try{ await Store.del(KEY); }catch(e){}
+  ALL_LEAVES.forEach(id=>{document.querySelectorAll('[data-leaf="'+CSS.escape(id)+'"] .tg').forEach(b=>b.classList.remove("on"));});
+  ALL_LEAVES.forEach(id=>{
+    const panel=document.querySelector('.vidpanel[data-vidpanel="'+CSS.escape(id)+'"]');
+    if(panel) renderVidPanel(id,panel);
+    updateVidBtn(id);
+  });
+  ALL_LEAVES.forEach(refreshRowState); refreshAggregates();
+});
+// ----- Backup (exportar) -----
+$("#backup").addEventListener("click",()=>{
+  const data={app:"pmdf-verticalizado",versao:1,data:new Date().toISOString(),state:state};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob); const a=document.createElement("a");
+  const d=new Date(); const stamp=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  a.href=url; a.download="backup-verticalizado-pmdf-"+stamp+".json"; a.click(); URL.revokeObjectURL(url);
+});
+// ----- Restaurar (importar) -----
+$("#restore").addEventListener("click",()=>$("#restoreFile").click());
+$("#restoreFile").addEventListener("change",e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const obj=JSON.parse(rd.result);
+      const incoming=obj && obj.state ? obj.state : obj;
+      if(typeof incoming!=="object") throw 0;
+      if(!confirm("Restaurar este backup? Ele substitui o progresso atual.")) return;
+      state=incoming; save();
+      ALL_LEAVES.forEach(id=>{const c=getCell(id);["t","r","q"].forEach(k=>document.querySelectorAll('[data-leaf="'+CSS.escape(id)+'"] .tg.'+k).forEach(b=>b.classList.toggle("on",!!c[k])));});
+      ALL_LEAVES.forEach(id=>{
+        const panel=document.querySelector('.vidpanel[data-vidpanel="'+CSS.escape(id)+'"]');
+        if(panel) renderVidPanel(id,panel);
+        updateVidBtn(id);
+      });
+      ALL_LEAVES.forEach(refreshRowState); refreshAggregates();
+      alert("Backup restaurado! 🎖");
+    }catch(err){ alert("Arquivo inválido. Use um backup gerado por este painel."); }
+    e.target.value="";
+  };
+  rd.readAsText(f);
+});
+
+/* ============ INIT ============ */
+(async function(){
+  await load();
+  renderTools();
+  // ensure all leaves exist after load to keep references stable
+  build();
+  // re-sync toggle visuals from loaded state
+  ALL_LEAVES.forEach(id=>{
+    const c=getCell(id);
+    ["t","r","q"].forEach(k=>{
+      document.querySelectorAll('[data-leaf="'+CSS.escape(id)+'"] .tg.'+k).forEach(b=>b.classList.toggle("on",!!c[k]));
+    });
+  });
+  ALL_LEAVES.forEach(refreshRowState);
+  refreshAggregates();
+})();
+</script>
+</body>
+</html>
