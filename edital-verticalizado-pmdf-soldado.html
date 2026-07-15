@@ -3,571 +3,560 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Edital Verticalizado — PMDF Soldado QPPMC</title>
+<title>Cronograma 6 Meses — PMDF Soldado</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Chart.js usado apenas na aba Histórico, para os gráficos simples de evolução -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <style>
   :root{
-    --bg:#0E141C;
-    --bg2:#0B1118;
-    --surface:#161F2B;
-    --surface2:#1C2836;
-    --line:#26323F;
-    --line2:#324252;
-    --txt:#E7ECF2;
-    --muted:#8A99AB;
-    --faint:#5C6B7C;
-    --gold:#E5AE3B;
-    --gold-soft:#3a2f15;
-    --green:#3FCB8E;
-    --green-soft:#16352a;
-    --blue:#4FA3E3;
-    --blue-soft:#13293c;
-    --amber:#E9954A;
-    --amber-soft:#3a2a18;
-    --radius:14px;
+    --bg:#0E141C; --bg2:#0B1118; --surface:#161F2B; --surface2:#1C2836;
+    --line:#26323F; --line2:#324252; --txt:#E7ECF2; --muted:#8A99AB; --faint:#5C6B7C;
+    --gold:#E5AE3B; --gold-soft:#3a2f15; --green:#3FCB8E; --green-soft:#16352a;
+    --blue:#4FA3E3; --blue-soft:#13293c; --amber:#E9954A; --amber-soft:#3a2a18;
+    --purple:#B583E8; --purple-soft:#241a31; --red:#E86A6A; --red-soft:#341a1c;
     --shadow:0 10px 30px rgba(0,0,0,.35);
   }
-  *{box-sizing:border-box}
-  html,body{margin:0}
+  *{box-sizing:border-box} html,body{margin:0}
   body{
-    background:
-      radial-gradient(1200px 600px at 80% -10%, #15202d 0%, transparent 60%),
-      radial-gradient(900px 500px at -10% 0%, #131b26 0%, transparent 55%),
-      var(--bg);
-    color:var(--txt);
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    padding:22px 16px 60px;
+    background:radial-gradient(1200px 600px at 80% -10%, #15202d 0, transparent 60%),
+      radial-gradient(900px 500px at -10% 0, #131b26 0, transparent 55%), var(--bg);
+    color:var(--txt); font-family:'Inter',system-ui,sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased; padding:22px 16px 60px;
   }
-  .wrap{max-width:1080px;margin:0 auto}
-  .display{font-family:'Barlow Condensed','Inter',sans-serif;letter-spacing:.4px}
+  .wrap{max-width:1060px;margin:0 auto}
 
-  /* ===== HEADER ===== */
-  header.top{
-    background:linear-gradient(160deg,var(--surface) 0%, var(--bg2) 100%);
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:20px 22px;
-    box-shadow:var(--shadow);
-    position:relative;
-    overflow:hidden;
-  }
-  header.top::before{
-    content:"";position:absolute;inset:0 0 auto 0;height:3px;
-    background:linear-gradient(90deg,var(--gold),#caa23a 40%,transparent);
-  }
-  .eyebrow{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:2.5px;
-    font-size:12px;color:var(--gold);font-weight:600;margin:0 0 2px}
-  h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;margin:0;line-height:1.05;
+  header.top{background:linear-gradient(160deg,var(--surface),var(--bg2));border:1px solid var(--line);
+    border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;
+    background:linear-gradient(90deg,var(--gold),#caa23a 40%,transparent)}
+  .eyebrow{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:2.5px;font-size:12px;
+    color:var(--gold);font-weight:600;margin:0 0 2px}
+  h1{font-family:'Barlow Condensed';font-weight:700;font-size:30px;margin:0;line-height:1.05;
     text-transform:uppercase;letter-spacing:.5px}
-  .sub{color:var(--muted);font-size:13.5px;margin-top:4px;max-width:640px}
+  .sub{color:var(--muted);font-size:13.5px;margin-top:4px;max-width:680px}
 
-  .rankrow{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:18px}
-  .badge{
-    display:flex;align-items:center;gap:12px;
-    background:var(--surface2);border:1px solid var(--line2);
-    border-radius:14px;padding:12px 16px;min-width:230px;
-  }
-  .chevrons{font-family:'Barlow Condensed';font-weight:700;color:var(--gold);font-size:26px;line-height:.8;
-    letter-spacing:-2px;text-shadow:0 0 14px rgba(229,174,59,.25)}
-  .rank-label{font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint)}
-  .rank-name{font-family:'Barlow Condensed';font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.5px}
-  .nextrank{font-size:11.5px;color:var(--muted)}
+  .meters{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+  .meter{background:var(--surface2);border:1px solid var(--line2);border-radius:13px;padding:11px 16px;
+    display:flex;align-items:center;gap:12px}
+  .meter b{font-family:'Barlow Condensed';font-size:26px;font-weight:700;line-height:1}
+  .meter .ml{font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .flame{font-size:24px}
+  .weekprog{flex:1;min-width:220px}
+  .wp-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .wp-top .pc{font-family:'Barlow Condensed';font-weight:700;font-size:22px;color:var(--green)}
+  .wp-top .l{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .bar{height:11px;background:var(--bg2);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2f9e6e,var(--green));transition:width .45s}
 
-  .progwrap{flex:1;min-width:260px}
-  .progtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
-  .progtop .pct{font-family:'Barlow Condensed';font-weight:700;font-size:24px;color:var(--green)}
-  .progtop .lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
-  .bar{height:12px;background:var(--bg2);border-radius:99px;border:1px solid var(--line);overflow:hidden;position:relative}
-  .bar > i{display:block;height:100%;width:0;border-radius:99px;
-    background:linear-gradient(90deg,#2f9e6e,var(--green));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  /* phase timeline */
+  .timeline{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0 4px}
+  .ph{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 15px;cursor:pointer;
+    transition:.15s;position:relative;overflow:hidden}
+  .ph:hover{border-color:var(--line2)}
+  .ph.active{border-color:var(--gold);background:linear-gradient(160deg,#1d2533,var(--surface))}
+  .ph.active::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--gold)}
+  .ph .pn{font-family:'Barlow Condensed';font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .ph .pt{font-family:'Barlow Condensed';font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:.4px;margin:2px 0}
+  .ph .pm{font-size:11.5px;color:var(--faint)}
+  .ph .pf{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
-  .stat{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center}
-  .stat b{font-family:'Barlow Condensed';font-size:24px;font-weight:700;display:block;line-height:1}
-  .stat span{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
-  .stat.dom b{color:var(--green)} .stat.rev b{color:var(--amber)}
-  .stat.est b{color:var(--blue)} .stat.tot b{color:var(--txt)}
-
-  /* ===== CONTROLS ===== */
-  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0 6px}
-  .search{flex:1;min-width:200px;position:relative}
-  .search input{width:100%;background:var(--surface);border:1px solid var(--line2);color:var(--txt);
-    border-radius:11px;padding:11px 14px 11px 38px;font-size:14px;font-family:inherit;outline:none}
-  .search input:focus{border-color:var(--gold)}
-  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
-  .chips{display:flex;gap:7px;flex-wrap:wrap}
-  .chip{background:var(--surface);border:1px solid var(--line2);color:var(--muted);
-    padding:8px 13px;border-radius:99px;font-size:12.5px;cursor:pointer;font-weight:500;
-    font-family:'Barlow Condensed';letter-spacing:.5px;text-transform:uppercase;transition:.15s;user-select:none}
-  .chip:hover{border-color:var(--gold);color:var(--txt)}
-  .chip.on{background:var(--gold);color:#1a130a;border-color:var(--gold);font-weight:700}
-  .miniact{background:transparent;border:1px solid var(--line2);color:var(--muted);border-radius:9px;
-    padding:8px 11px;font-size:12px;cursor:pointer;font-family:inherit}
-  .miniact:hover{color:var(--txt);border-color:var(--line2)}
-  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 2px 0;font-size:11.5px;color:var(--muted)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:16px 2px 14px;font-size:11.5px;color:var(--muted)}
   .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle}
 
-  /* ===== BLOCK HEADINGS ===== */
-  .blockhead{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:2px;font-size:14px;
-    color:var(--gold);margin:26px 4px 12px;display:flex;align-items:center;gap:10px}
-  .blockhead::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+  .focusbar{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13.5px;color:var(--muted)}
+  .focusbar b{color:var(--txt)}
 
-  /* ===== DISCIPLINE CARD ===== */
-  .disc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    margin-bottom:12px;overflow:hidden}
-  .disc.hidden{display:none}
-  .dhead{display:flex;align-items:center;gap:13px;padding:14px 16px;cursor:pointer;user-select:none}
-  .dhead:hover{background:var(--surface2)}
-  .arrow{color:var(--faint);transition:transform .2s;font-size:12px;flex:none}
-  .disc.open .arrow{transform:rotate(90deg)}
-  .dtitle{flex:1;min-width:0}
-  .dtitle .nm{font-family:'Barlow Condensed';font-weight:700;font-size:18px;text-transform:uppercase;
-    letter-spacing:.4px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .tag{font-family:'Inter';font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
-    padding:2px 7px;border-radius:5px}
-  .tag.q{background:var(--gold-soft);color:var(--gold);border:1px solid #5a481f}
-  .tag.nuc{background:#11283a;color:var(--blue);border:1px solid #1d3f59}
-  .dmeta{font-size:11.5px;color:var(--faint);margin-top:2px}
-  .dprog{flex:none;width:120px;text-align:right}
-  .dprog .num{font-family:'Barlow Condensed';font-weight:700;font-size:15px}
-  .dbar{height:7px;background:var(--bg2);border-radius:99px;overflow:hidden;margin-top:5px;border:1px solid var(--line)}
-  .dbar > i{display:block;height:100%;background:linear-gradient(90deg,#2f9e6e,var(--green));width:0;transition:width .4s}
+  /* week grid */
+  .week{display:flex;flex-direction:column;gap:10px}
+  .day{background:var(--surface);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .dhead{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid var(--line)}
+  .dname{font-family:'Barlow Condensed';font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.6px;flex:none;width:54px}
+  .dtag{font-size:10px;font-family:'Barlow Condensed';letter-spacing:1px;text-transform:uppercase;color:var(--faint)}
+  .dprog{margin-left:auto;font-family:'Barlow Condensed';font-size:13px;color:var(--faint)}
+  .weekend .dname{color:var(--gold)}
+  .blocks{padding:8px 10px;display:flex;flex-direction:column;gap:7px}
+  .blk{display:flex;align-items:center;gap:12px;padding:9px 11px;border-radius:10px;background:var(--bg2);
+    border:1px solid var(--line);cursor:pointer;transition:.12s;user-select:none}
+  .blk:hover{border-color:var(--line2)}
+  .blk.done{opacity:.55}
+  .blk.done .blabel{text-decoration:line-through;text-decoration-color:var(--faint)}
+  .check{width:22px;height:22px;border-radius:7px;border:2px solid var(--line2);flex:none;display:flex;
+    align-items:center;justify-content:center;color:transparent;font-size:13px;font-weight:800;transition:.12s}
+  .blk.done .check{background:var(--green);border-color:var(--green);color:#0a1f16}
+  .slot{font-family:'Barlow Condensed';font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);
+    flex:none;width:64px}
+  .blabel{flex:1;font-size:13.5px}
+  .kind{font-size:9.5px;font-family:'Barlow Condensed';font-weight:700;letter-spacing:.7px;text-transform:uppercase;
+    padding:2px 8px;border-radius:6px;flex:none}
+  .k-teoria{background:var(--blue-soft);color:var(--blue)}
+  .k-questoes{background:var(--green-soft);color:var(--green)}
+  .k-revisao{background:var(--amber-soft);color:var(--amber)}
+  .k-redacao{background:var(--purple-soft);color:var(--purple)}
+  .k-fisico{background:var(--red-soft);color:var(--red)}
+  .k-descanso{background:#202a36;color:var(--faint)}
+  .blk.k-descanso-row{cursor:default;opacity:.85}
 
-  .dbody{display:none;padding:2px 8px 10px;border-top:1px solid var(--line)}
-  .disc.open .dbody{display:block}
+  .closeweek{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+  .btn{border:none;border-radius:11px;padding:12px 20px;font-family:'Barlow Condensed';font-weight:700;
+    font-size:15px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.15s}
+  .btn.gold{background:var(--gold);color:#1a130a}
+  .btn.gold:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--muted)}
+  .btn.ghost:hover{color:var(--txt)}
+  .hint{font-size:12px;color:var(--faint)}
 
-  /* topic rows */
-  .topic{padding:9px 8px 9px 6px;border-bottom:1px solid #1d2733}
-  .topic:last-child{border-bottom:none}
-  .topic.hidden{display:none}
-  .trow{display:flex;align-items:flex-start;gap:12px}
-  .tnum{font-family:'Barlow Condensed';color:var(--faint);font-weight:600;font-size:13px;min-width:24px;
-    text-align:right;padding-top:2px;flex:none}
-  .tlabel{flex:1;font-size:14px;color:var(--txt)}
-  .topic.done .tlabel{color:var(--muted)}
-  .toggles{display:flex;gap:6px;flex:none}
-  .tg{width:30px;height:26px;border-radius:7px;border:1px solid var(--line2);background:var(--bg2);
-    color:var(--faint);font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;
-    justify-content:center;font-family:'Barlow Condensed';letter-spacing:.5px;transition:.12s;user-select:none}
-  .tg:hover{border-color:var(--line2);color:var(--muted)}
-  .tg.t.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
-  .tg.r.on{background:var(--amber-soft);border-color:var(--amber);color:var(--amber)}
-  .tg.q.on{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+  .modeswitch{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;padding:10px 14px;margin:14px 0;cursor:pointer;transition:.15s;user-select:none}
+  .modeswitch:hover{border-color:var(--line2)}
+  .modeswitch.on{border-color:var(--amber);background:linear-gradient(160deg,var(--amber-soft),var(--surface))}
+  .msw{width:38px;height:22px;border-radius:99px;background:var(--bg2);border:1px solid var(--line2);position:relative;flex:none;transition:.2s}
+  .msw>i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:99px;background:var(--faint);transition:.2s}
+  .modeswitch.on .msw{background:var(--amber-soft);border-color:var(--amber)}
+  .modeswitch.on .msw>i{left:18px;background:var(--amber)}
+  .mstxt b{font-size:13.5px;display:block}
+  .mstxt span{font-size:11.5px;color:var(--faint)}
+  .presencial-banner{display:none;background:var(--amber-soft);border:1px solid #4a3319;border-left:3px solid var(--amber);
+    border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13px;color:#e8c9a0;line-height:1.5}
+  .presencial-banner b{color:var(--amber)}
+  body.presencial .presencial-banner{display:block}
+  body.presencial .blk.k-teoria,body.presencial .blk.k-redacao{opacity:.4}
+  body.presencial .blk.k-teoria .blabel::after,body.presencial .blk.k-redacao .blabel::after{
+    content:" — opcional hoje";font-size:11px;color:var(--amber);font-style:italic}
+  body.presencial .blk.k-revisao,body.presencial .blk.k-questoes{border-color:var(--amber)}
 
-  /* subtopics */
-  .subs{margin:6px 0 0 36px;display:flex;flex-direction:column;gap:3px}
-  .sub-i{display:flex;align-items:center;gap:10px;padding:4px 0}
-  .sub-i.hidden{display:none}
-  .sdot{width:7px;height:7px;border-radius:99px;background:var(--line2);flex:none}
-  .sub-i.done .sdot{background:var(--green)}
-  .slabel{flex:1;font-size:13px;color:var(--muted)}
-  .sub-i.done .slabel{color:var(--faint);text-decoration:line-through;text-decoration-color:#2a3a30}
-  .sub-i .toggles .tg{width:27px;height:23px;font-size:10px}
+  .taf{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:18px}
+  .taf h3{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.4px;font-size:14px;color:var(--red);margin:0 0 8px}
+  .taf .row{display:flex;flex-wrap:wrap;gap:8px}
+  .taf .pill{background:var(--red-soft);border:1px solid #4a2426;color:#f0a3a3;border-radius:8px;padding:6px 11px;font-size:12px}
 
-  .empty{text-align:center;color:var(--faint);padding:40px;font-size:14px}
-
-  footer{margin-top:28px;color:var(--faint);font-size:12px;text-align:center;line-height:1.7}
+  footer{margin-top:24px;color:var(--faint);font-size:12px;text-align:center;line-height:1.7}
   .saved{display:inline-flex;align-items:center;gap:6px;color:var(--green);opacity:0;transition:.3s}
-  .saved.show{opacity:1}
-  .saved i{width:7px;height:7px;background:var(--green);border-radius:99px;display:inline-block}
-
-  /* tools bar */
-  .toolsbar{background:linear-gradient(160deg,var(--surface) 0%, var(--bg2) 100%);
-    border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:14px}
-  .toolsbar .tlbl{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.6px;font-size:11.5px;
-    color:var(--faint);margin-bottom:9px}
-  .toolrow{display:flex;flex-wrap:wrap;gap:8px}
-  .tool{display:inline-flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line2);
-    color:var(--txt);text-decoration:none;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:500;transition:.15s}
-  .tool:hover{border-color:var(--gold);transform:translateY(-1px)}
-  .tool .k{font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;font-family:'Barlow Condensed';
-    padding:1px 5px;border-radius:4px}
-  .tool .k.q{background:var(--green-soft);color:var(--green)}
-  .tool .k.l{background:var(--gold-soft);color:var(--gold)}
-  .tool .k.e{background:var(--blue-soft);color:var(--blue)}
-
-  /* per-discipline study links */
-  .studylinks{display:flex;flex-wrap:wrap;gap:7px;padding:10px 8px 12px;border-bottom:1px solid #1d2733;margin-bottom:2px}
-  .slk{display:inline-flex;align-items:center;gap:6px;text-decoration:none;border-radius:8px;padding:6px 10px;
-    font-size:12px;font-weight:500;border:1px solid var(--line2);background:var(--bg2);color:var(--txt);transition:.15s}
-  .slk:hover{transform:translateY(-1px)}
-  .slk.aula{border-color:#3a2e44;background:#1d1726;color:#c9a6e8}
-  .slk.aula:hover{border-color:#a76fe0}
-  .slk.lei{border-color:#5a481f;background:var(--gold-soft);color:var(--gold)}
-  .slk.lei:hover{border-color:var(--gold)}
-  .slk.quest{border-color:#1f4a36;background:var(--green-soft);color:var(--green)}
-  .slk.quest:hover{border-color:var(--green)}
-  .slk.estr{border-color:#1c3c56;background:var(--blue-soft);color:var(--blue)}
-  .slk.estr:hover{border-color:var(--blue)}
-  .slk svg{flex:none;opacity:.85}
+  .saved.show{opacity:1}.saved i{width:7px;height:7px;background:var(--green);border-radius:99px;display:inline-block}
 
   @media(max-width:640px){
-    body{padding:14px 10px 50px}
-    h1{font-size:24px}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .dprog{width:78px}
-    .toggles{gap:4px}
-    .tg{width:27px;height:24px}
-    .badge{min-width:0;flex:1}
-    .rankrow{gap:12px}
+    body{padding:14px 10px 50px} h1{font-size:23px}
+    .timeline{grid-template-columns:1fr}
+    .slot{width:54px}.dname{width:46px}
   }
+
+  /* ===================================================================
+     NOVOS RECURSOS — navegação, dashboard, videoaulas, questões,
+     revisões espaçadas, pomodoro e histórico. Reaproveita as variáveis
+     de cor e os padrões visuais já definidos acima.
+     =================================================================== */
+
+  /* --- Navegação por abas --- */
+  .navtabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0;background:var(--surface);
+    border:1px solid var(--line);border-radius:13px;padding:6px}
+  .navtab{flex:1;min-width:100px;text-align:center;background:transparent;border:none;
+    color:var(--muted);font-family:'Barlow Condensed';font-weight:600;letter-spacing:.6px;
+    text-transform:uppercase;font-size:12.5px;padding:10px 8px;border-radius:9px;cursor:pointer;
+    transition:.15s;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .navtab .ico{font-size:16px;line-height:1}
+  .navtab:hover{color:var(--txt);background:var(--surface2)}
+  .navtab.active{color:#1a130a;background:var(--gold)}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  /* --- Cards genéricos reutilizados no dashboard e histórico --- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--card-accent,var(--gold))}
+  .card .cv{font-family:'Barlow Condensed';font-weight:700;font-size:28px;line-height:1}
+  .card .cl{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed';margin-top:4px}
+  .card .ci{font-size:18px;position:absolute;top:12px;right:14px;opacity:.5}
+
+  .sectiontitle{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.4px;
+    font-size:16px;color:var(--gold);margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+  .sectiontitle .n{color:var(--faint);font-size:11px;letter-spacing:.6px}
+
+  /* --- Disciplina accordion (usado em Videoaulas e Questões) --- */
+  .disc{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+  .dischead{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;user-select:none}
+  .dischead:hover{background:var(--surface2)}
+  .dischead .dtitle{font-family:'Barlow Condensed';font-weight:700;font-size:15.5px;flex:1;text-transform:uppercase;letter-spacing:.4px}
+  .dischead .dcount{font-size:11.5px;color:var(--faint);font-family:'Barlow Condensed'}
+  .dischead .caret{color:var(--faint);transition:.2s;font-size:12px}
+  .disc.open .caret{transform:rotate(90deg)}
+  .discbody{display:none;padding:4px 16px 16px}
+  .disc.open .discbody{display:block}
+  .discbar{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:0 16px 6px}
+  .discbar>i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2f9e6e,var(--green));transition:width .35s}
+
+  /* --- Vídeoaulas --- */
+  .vidrow{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--line)}
+  .vidrow:last-child{border-bottom:none}
+  .vidcheck{width:20px;height:20px;border-radius:6px;border:2px solid var(--line2);flex:none;display:flex;
+    align-items:center;justify-content:center;color:transparent;font-size:12px;font-weight:800;cursor:pointer;transition:.12s}
+  .vidrow.done .vidcheck{background:var(--green);border-color:var(--green);color:#0a1f16}
+  .vidname{flex:1;font-size:13.5px;background:transparent;border:none;color:var(--txt);font-family:'Inter';
+    padding:5px 6px;border-radius:6px;outline:none;min-width:0}
+  .vidname:focus{background:var(--bg2);box-shadow:0 0 0 1px var(--line2)}
+  .vidrow.done .vidname{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--faint)}
+  .vidrm{background:transparent;border:none;color:var(--faint);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:6px;flex:none}
+  .vidrm:hover{color:var(--red);background:var(--red-soft)}
+  .addvid{margin:10px 4px 2px;background:transparent;border:1px dashed var(--line2);color:var(--muted);
+    border-radius:9px;padding:8px 12px;font-size:12.5px;font-family:'Barlow Condensed';letter-spacing:.6px;
+    text-transform:uppercase;font-weight:600;cursor:pointer;width:100%;transition:.15s}
+  .addvid:hover{color:var(--gold);border-color:var(--gold)}
+  .emptyhint{color:var(--faint);font-size:12.5px;padding:8px 4px;font-style:italic}
+
+  /* --- Questões --- */
+  .qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 4px 10px}
+  .qfield{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .qfield label{display:block;font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);
+    font-family:'Barlow Condensed';margin-bottom:3px}
+  .qfield input{width:100%;background:transparent;border:none;color:var(--txt);font-family:'Barlow Condensed';
+    font-weight:700;font-size:18px;outline:none}
+  .qfield.acc .qval{font-family:'Barlow Condensed';font-weight:700;font-size:18px}
+  .qfield.acc.good .qval{color:var(--green)}
+  .qfield.acc.bad .qval{color:var(--red)}
+  .qfield.acc.mid .qval{color:var(--amber)}
+  @media(max-width:640px){.qgrid{grid-template-columns:repeat(2,1fr)}}
+
+  /* --- Revisões espaçadas --- */
+  .revlist{display:flex;flex-direction:column;gap:8px}
+  .revitem{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);
+    border-left:3px solid var(--amber);border-radius:11px;padding:11px 14px}
+  .revitem.overdue{border-left-color:var(--red)}
+  .revitem.done{opacity:.5}
+  .revitem.done .rlabel{text-decoration:line-through}
+  .revcheck{width:22px;height:22px;border-radius:7px;border:2px solid var(--line2);flex:none;display:flex;
+    align-items:center;justify-content:center;color:transparent;font-size:13px;font-weight:800;cursor:pointer;transition:.12s}
+  .revitem.done .revcheck{background:var(--green);border-color:var(--green);color:#0a1f16}
+  .rlabel{flex:1;font-size:13.5px}
+  .rlabel b{display:block;font-size:12px;color:var(--amber);font-family:'Barlow Condensed';letter-spacing:.4px;text-transform:uppercase}
+  .rtag{font-size:9.5px;font-family:'Barlow Condensed';font-weight:700;letter-spacing:.7px;text-transform:uppercase;
+    padding:3px 8px;border-radius:6px;flex:none;background:var(--amber-soft);color:var(--amber)}
+  .revitem.overdue .rtag{background:var(--red-soft);color:var(--red)}
+
+  /* --- Pomodoro --- */
+  .pomo{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center}
+  .pomo .clock{font-family:'Barlow Condensed';font-weight:700;font-size:56px;letter-spacing:1px;margin:6px 0}
+  .pomo .plabel{color:var(--faint);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-family:'Barlow Condensed'}
+  .pomo .pbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .pomo .psetup{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .pomo .psetup label{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .pomo .psetup input{width:56px;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);
+    border-radius:8px;padding:6px 8px;font-family:'Barlow Condensed';font-weight:700;text-align:center}
+  .pomo .ptotal{margin-top:14px;font-size:12.5px;color:var(--muted)}
+  .pomo.running{border-color:var(--gold)}
+
+  /* --- Histórico / gráficos --- */
+  .chartbox{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+  .chartbox h4{margin:0 0 10px;font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1px;
+    font-size:13px;color:var(--muted)}
+  .chartbox canvas{max-height:220px}
+
+  .taskbar-wrap{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin:14px 0}
+  .taskbar-wrap .tb-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .taskbar-wrap .tb-top .l{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);font-family:'Barlow Condensed'}
+  .taskbar-wrap .tb-top .pc{font-family:'Barlow Condensed';font-weight:700;font-size:20px;color:var(--gold)}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="top">
-    <p class="eyebrow">Concurso Público · CFP · QPPMC</p>
-    <h1>Edital Verticalizado — Soldado PMDF</h1>
-    <p class="sub">Conteúdo programático quebrado até o subtópico. Marque <b>T</b>eoria, <b>R</b>evisão e <b>Q</b>uestões em cada item — a barra e a patente sobem sozinhas. Tudo salva automático neste aparelho.</p>
+  <!-- ===== NAVEGAÇÃO POR ABAS (novo) ===== -->
+  <nav class="navtabs" id="navtabs">
+    <button class="navtab" data-view="dashboard"><span class="ico">🏠</span>Dashboard</button>
+    <button class="navtab active" data-view="cronograma"><span class="ico">🗓️</span>Cronograma</button>
+    <button class="navtab" data-view="videoaulas"><span class="ico">🎥</span>Videoaulas</button>
+    <button class="navtab" data-view="questoes"><span class="ico">📝</span>Questões</button>
+    <button class="navtab" data-view="revisoes"><span class="ico">🔁</span>Revisões</button>
+    <button class="navtab" data-view="pomodoro"><span class="ico">⏱️</span>Pomodoro</button>
+    <button class="navtab" data-view="historico"><span class="ico">📊</span>Histórico</button>
+  </nav>
 
-    <div class="rankrow">
-      <div class="badge">
-        <div class="chevrons" id="chev">›</div>
-        <div>
-          <div class="rank-label">Sua patente</div>
-          <div class="rank-name" id="rankName">Recruta</div>
-          <div class="nextrank" id="nextRank">—</div>
-        </div>
-      </div>
-      <div class="progwrap">
-        <div class="progtop">
-          <span class="lbl">Progresso geral do edital</span>
-          <span class="pct" id="pct">0%</span>
-        </div>
-        <div class="bar"><i id="barFill"></i></div>
-        <div class="stats">
-          <div class="stat dom"><b id="sDom">0</b><span>Dominados</span></div>
-          <div class="stat rev"><b id="sRev">0</b><span>Revisar</span></div>
-          <div class="stat est"><b id="sEst">0</b><span>Estudando</span></div>
-          <div class="stat tot"><b id="sTot">0</b><span>Tópicos</span></div>
-        </div>
+  <!-- ===== VIEW: DASHBOARD (novo) ===== -->
+  <section class="view" id="view-dashboard">
+    <header class="top">
+      <p class="eyebrow">Visão Geral</p>
+      <h1>Dashboard — Painel do Concurseiro</h1>
+      <p class="sub">Resumo de tudo que você já fez: cronograma, videoaulas, questões e revisões. Atualiza sozinho conforme você estuda.</p>
+    </header>
+
+    <div class="taskbar-wrap">
+      <div class="tb-top"><span class="l">Tarefas de hoje (<span id="dashDiaNome">—</span>)</span><span class="pc" id="dashTodayPct">0%</span></div>
+      <div class="bar"><i id="dashTodayFill"></i></div>
+      <div class="hint" id="dashTodayCount" style="margin-top:6px">0 de 0 tarefas concluídas hoje</div>
+    </div>
+
+    <div class="cards" id="dashCards"></div>
+
+    <div class="sectiontitle">🔁 Revisões de hoje</div>
+    <div class="revlist" id="dashRevList"></div>
+  </section>
+
+  <!-- ===== VIEW: CRONOGRAMA (original — preservado integralmente) ===== -->
+  <section class="view active" id="view-cronograma">
+
+  <header class="top">
+    <p class="eyebrow">Plano de Estudos · 6 Meses · Blocos de 50 min</p>
+    <h1>Cronograma — Soldado PMDF</h1>
+    <p class="sub">Rotina fixa por dia da semana pra cortar a decisão diária. Distribuição por peso da prova: Específicos puxam o time, núcleo comum (Português, RLM, Constitucional, Administrativo) vem primeiro. Marque os blocos — tudo salva automático.</p>
+    <div class="meters">
+      <div class="meter"><span class="flame" id="flame">🔥</span><div><b id="streak">0</b><div class="ml">semanas em sequência</div></div></div>
+      <div class="meter"><div><b id="weeksDone" style="color:var(--gold)">0</b><div class="ml">semanas concluídas</div></div></div>
+      <div class="weekprog">
+        <div class="wp-top"><span class="l">Progresso da semana</span><span class="pc" id="weekPct">0%</span></div>
+        <div class="bar"><i id="weekFill"></i></div>
+        <div class="hint" id="weekCount" style="margin-top:6px">0 de 0 blocos</div>
       </div>
     </div>
   </header>
 
-  <div class="controls">
-    <div class="search">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="search" placeholder="Buscar tópico, lei, assunto…" autocomplete="off">
-    </div>
-    <div class="chips" id="filters">
-      <span class="chip on" data-f="all">Todos</span>
-      <span class="chip" data-f="nuc">Núcleo comum</span>
-      <span class="chip" data-f="pend">Pendentes</span>
-      <span class="chip" data-f="rev">Para revisar</span>
-      <span class="chip" data-f="dom">Dominados</span>
-    </div>
-    <button class="miniact" id="expandAll">Expandir tudo</button>
-    <button class="miniact" id="backup">⬇ Backup</button>
-    <button class="miniact" id="restore">⬆ Restaurar</button>
-    <input type="file" id="restoreFile" accept="application/json" style="display:none">
-    <button class="miniact" id="reset">Zerar</button>
+  <div class="timeline" id="timeline"></div>
+
+  <div class="modeswitch" id="modeswitch">
+    <div class="msw"><i></i></div>
+    <div class="mstxt"><b>🪫 Modo Semana Presencial</b><span>Ative em semanas de trabalho presencial — reduz a cobrança e destaca só o essencial</span></div>
   </div>
+  <div class="presencial-banner" id="presencialBanner">
+    <b>Modo semana presencial ativo.</b> Meta de hoje: 1 bloco de 20–25 min, revisão ou questões — nada de teoria nova. Blocos de teoria/redação ficam esmaecidos (opcionais). O objetivo aqui não é avançar, é não perder o hábito. Semana que vem, com energia de volta, desativa e segue o ritmo normal.
+  </div>
+
+  <div class="focusbar" id="focusbar"></div>
+
   <div class="legend">
-    <span><i style="background:var(--blue)"></i>T = teoria estudada</span>
-    <span><i style="background:var(--amber)"></i>R = revisão feita</span>
-    <span><i style="background:var(--green)"></i>Q = questões resolvidas</span>
-    <span><i style="background:#11283a"></i>Núcleo comum = também cai na PRF (Cebraspe)</span>
+    <span><i style="background:var(--blue)"></i>Teoria</span>
+    <span><i style="background:var(--green)"></i>Questões</span>
+    <span><i style="background:var(--amber)"></i>Revisão</span>
+    <span><i style="background:var(--purple)"></i>Redação</span>
+    <span><i style="background:var(--red)"></i>Físico / TAF</span>
   </div>
 
-  <div class="toolsbar" id="toolsbar"></div>
+  <div class="week" id="week"></div>
 
-  <div id="content"></div>
+  <div class="closeweek">
+    <button class="btn gold" id="closeBtn">Fechar semana ✔</button>
+    <button class="btn ghost" id="clearBtn">Limpar marcações</button>
+    <button class="btn ghost" id="backup">⬇ Backup</button>
+    <button class="btn ghost" id="restore">⬆ Restaurar</button>
+    <input type="file" id="restoreFile" accept="application/json" style="display:none">
+    <span class="hint">Fechou ≥70% dos blocos? Clica em “Fechar semana” pra somar streak e zerar pra próxima.</span>
+  </div>
+
+  <div class="taf">
+    <h3>Metas do TAF — feminino (não esquecer, é eliminatório)</h3>
+    <div class="row">
+      <span class="pill">Barra estática · 20 segundos</span>
+      <span class="pill">Abdominal remador · 35 repetições</span>
+      <span class="pill">Corrida · 2.100 m em 12 min</span>
+      <span class="pill">Natação · 50 m em até 1min10s</span>
+    </div>
+  </div>
 
   <footer>
     <span class="saved" id="saved"><i></i> salvo</span><br>
-    Base: Edital nº 04/2023-DGP/PMDF (Instituto AOCP). Para o certame de 2027 confira a banca e o conteúdo no edital novo.<br>
-    Peso da prova objetiva (80 questões): Português 10 · Inglês 4 · Matemática/RLM 9 · Atualidades 7 · Legislação PMDF 10 · Conhecimentos Específicos 40.
+    Base: Edital nº 04/2023-DGP/PMDF. Ajuste os horários dos blocos à sua agenda no Sicoob — a estrutura importa mais que o relógio.<br>
+    Sugestão de carga: ~16 blocos/semana (≈13h). Tem mais tempo? Some um bloco extra de questões nas noites da Fase 3.
   </footer>
+
+  </section>
+  <!-- ===== FIM DA VIEW CRONOGRAMA (original) ===== -->
+
+  <!-- ===== VIEW: VIDEOAULAS (novo) ===== -->
+  <section class="view" id="view-videoaulas">
+    <header class="top">
+      <p class="eyebrow">Por Disciplina</p>
+      <h1>Videoaulas</h1>
+      <p class="sub">Adicione quantas aulas quiser em cada disciplina, marque conforme assiste e edite o nome quando precisar. Tudo salva automático.</p>
+      <div class="meters">
+        <div class="weekprog">
+          <div class="wp-top"><span class="l">Progresso geral de videoaulas</span><span class="pc" id="vidPct">0%</span></div>
+          <div class="bar"><i id="vidFill"></i></div>
+          <div class="hint" id="vidCount" style="margin-top:6px">0 de 0 vídeos assistidos</div>
+        </div>
+      </div>
+    </header>
+    <div id="videoDisciplinas"></div>
+  </section>
+
+  <!-- ===== VIEW: QUADRO DE QUESTÕES (novo) ===== -->
+  <section class="view" id="view-questoes">
+    <header class="top">
+      <p class="eyebrow">Por Disciplina</p>
+      <h1>Quadro de Questões</h1>
+      <p class="sub">Defina uma meta de questões por disciplina e registre seu desempenho. Os percentuais são calculados automaticamente.</p>
+      <div class="meters">
+        <div class="weekprog">
+          <div class="wp-top"><span class="l">Precisão geral</span><span class="pc" id="qGeralPct">0%</span></div>
+          <div class="bar"><i id="qGeralFill"></i></div>
+          <div class="hint" id="qGeralCount" style="margin-top:6px">0 questões feitas · 0 acertos</div>
+        </div>
+      </div>
+    </header>
+    <div id="questoesDisciplinas"></div>
+  </section>
+
+  <!-- ===== VIEW: REVISÕES ESPAÇADAS (novo) ===== -->
+  <section class="view" id="view-revisoes">
+    <header class="top">
+      <p class="eyebrow">D+1 · D+7 · D+30</p>
+      <h1>Revisão Espaçada</h1>
+      <p class="sub">Toda vez que você marca um bloco de estudo do cronograma como concluído, três revisões futuras são criadas automaticamente. Conclua-as aqui.</p>
+    </header>
+    <div class="sectiontitle">📅 Revisões de hoje <span class="n" id="revHojeN"></span></div>
+    <div class="revlist" id="revHojeList"></div>
+    <div class="sectiontitle">⏳ Próximas revisões <span class="n" id="revFuturasN"></span></div>
+    <div class="revlist" id="revFuturasList"></div>
+    <div class="sectiontitle">✔ Concluídas recentemente <span class="n" id="revFeitasN"></span></div>
+    <div class="revlist" id="revFeitasList"></div>
+  </section>
+
+  <!-- ===== VIEW: POMODORO (novo) ===== -->
+  <section class="view" id="view-pomodoro">
+    <header class="top">
+      <p class="eyebrow">Foco Cronometrado</p>
+      <h1>Timer Pomodoro</h1>
+      <p class="sub">Configure o tempo de foco e pausa. O tempo estudado é somado automaticamente ao seu total do dia.</p>
+    </header>
+    <div class="pomo" id="pomoBox">
+      <div class="plabel" id="pomoLabel">Foco</div>
+      <div class="clock" id="pomoClock">25:00</div>
+      <div class="pbtns">
+        <button class="btn gold" id="pomoStart">▶ Iniciar</button>
+        <button class="btn ghost" id="pomoPause">⏸ Pausar</button>
+        <button class="btn ghost" id="pomoReset">↺ Reiniciar</button>
+      </div>
+      <div class="psetup">
+        <label>Foco (min) <input type="number" id="pomoFocoMin" min="1" max="120" value="25"></label>
+        <label>Pausa (min) <input type="number" id="pomoPausaMin" min="1" max="60" value="5"></label>
+      </div>
+      <div class="ptotal">Estudado hoje com o pomodoro: <b id="pomoTotalHoje">0min</b></div>
+    </div>
+  </section>
+
+  <!-- ===== VIEW: HISTÓRICO (novo) ===== -->
+  <section class="view" id="view-historico">
+    <header class="top">
+      <p class="eyebrow">Últimos 14 dias</p>
+      <h1>Histórico</h1>
+      <p class="sub">Evolução diária de questões, videoaulas, horas estudadas e precisão. Tudo calculado a partir do que você já registrou.</p>
+    </header>
+    <div class="chartbox"><h4>Questões por dia (feitas x acertos)</h4><canvas id="chartQuestoes"></canvas></div>
+    <div class="chartbox"><h4>Videoaulas assistidas por dia</h4><canvas id="chartVideos"></canvas></div>
+    <div class="chartbox"><h4>Horas estudadas por dia</h4><canvas id="chartHoras"></canvas></div>
+    <div class="chartbox"><h4>Precisão diária (%)</h4><canvas id="chartPrecisao"></canvas></div>
+  </section>
+
 </div>
 
 <script>
-/* ============ DADOS DO EDITAL (verticalizado) ============ */
-const EDITAL = [
- {block:"Conhecimentos Gerais", disciplines:[
-  {id:"port", nm:"Língua Portuguesa", q:10, nuc:true, topics:[
-    "Compreensão e intelecção de textos",
-    "Tipologia textual",
-    "Ortografia",
-    "Acentuação gráfica",
-    "Emprego do sinal indicativo de crase",
-    "Formação, classe e emprego de palavras",
-    "Sintaxe da oração e do período",
-    "Pontuação",
-    "Concordância nominal e verbal",
-    "Colocação pronominal",
-    "Regência nominal e verbal",
-    "Equivalência e transformação de estruturas",
-    "Paralelismo sintático",
-    "Relações de sinonímia e antonímia",
-    "Correspondência oficial (Manual da Presidência da República)"
-  ]},
-  {id:"ing", nm:"Língua Inglesa", q:4, nuc:false, topics:[
-    "Compreensão de textos escritos em inglês",
-    "Itens gramaticais relevantes à compreensão semântica",
-    "Pronomes (pessoais, oblíquos, demonstrativos, possessivos, reflexivos)",
-    "Artigos",
-    "Substantivos",
-    "Adjetivos",
-    "Advérbios",
-    "Verbos",
-    "Tempos e aspectos verbais (Simple, Continuous, Perfect — present/past/future)",
-    "Verbos modais (can, could, should, may, might, must, have to, would, need, had better)",
-    "Preposições",
-    "Prefixos e sufixos",
-    "Voz passiva",
-    "Orações subordinadas e conjunções",
-    "Orações subordinadas relativas (relative clauses)",
-    "Discursos direto e indireto",
-    "Conditionals (zero, first, second, third e mixed)",
-    "Phrasal verbs",
-    "Verb patterns (verb + ing or infinitive)",
-    "Question tags"
-  ]},
-  {id:"mat", nm:"Matemática e Raciocínio Lógico", q:9, nuc:true, topics:[
-    {t:"Estruturas lógicas", subs:["Proposições simples e compostas","Conectivos","Equivalências lógicas","Implicações lógicas","Estrutura lógica de relações arbitrárias"]},
-    {t:"Lógica de argumentação", subs:["Analogias","Inferências","Deduções","Conclusões","Processo lógico de hipóteses a conclusões válidas"]},
-    "Diagramas lógicos",
-    {t:"Problemas de contagem", subs:["Princípio Fundamental da Contagem","Permutação simples","Permutação com elementos repetidos","Arranjo simples","Combinação simples"]},
-    {t:"Probabilidades", subs:["Probabilidade da ocorrência de um evento","Problemas envolvendo probabilidades"]},
-    {t:"Razão, proporção e regra de três", subs:["Grandezas diretamente proporcionais","Grandezas inversamente proporcionais","Regra de três simples","Regra de três composta","Porcentagem","Resolução de problemas"]},
-    {t:"Sistemas de medidas", subs:["Comprimento","Área/superfície","Volume/capacidade"]},
-    "Áreas",
-    "Volumes"
-  ]},
-  {id:"atu", nm:"Atualidades", q:7, nuc:false, topics:[
-    "Realidade étnica, social, histórica, geográfica, cultural, política e econômica do DF e da RIDE",
-    "Conexão do DF/RIDE com o Brasil"
-  ]},
-  {id:"leg", nm:"Legislação Aplicável à PMDF", q:10, nuc:false, topics:[
-    "Lei Orgânica do Distrito Federal",
-    "Lei nº 6.450/1977 — Organização Básica da PMDF",
-    "Lei nº 7.289/1984 — Estatuto dos Policiais-Militares da PMDF",
-    "Lei nº 12.086/2009 — Militares da PMDF e CBMDF",
-    "Decreto nº 88.777/1983 — Regulamento (R-200)",
-    "Decreto nº 10.443/2020 — Organização Básica da PMDF",
-    "Decreto nº 41.167/2020 — Regulamenta art. 48, II, da Lei 6.450/77"
-  ]}
- ]},
- {block:"Conhecimentos Específicos", disciplines:[
-  {id:"const", nm:"Direito Constitucional e Direitos Humanos", q:null, nuc:true, topics:[
-    "Constituição: conceito, estrutura, elementos e classificação",
-    "Poder Constituinte",
-    "Princípios fundamentais da República Federativa do Brasil",
-    {t:"Direitos e garantias fundamentais", subs:["Direitos e deveres individuais e coletivos","Direitos sociais","Nacionalidade","Direitos políticos e partidos políticos","Remédios constitucionais (HC, MS, MI, habeas data, ação popular)"]},
-    {t:"Organização do Estado", subs:["Organização político-administrativa","União, Estados, DF, Municípios e Territórios","Repartição de competências","Intervenção","Administração Pública: disposições gerais; servidores e militares"]},
-    {t:"Organização dos Poderes", subs:["Poder Legislativo","Poder Executivo","Poder Judiciário","Funções essenciais à Justiça"]},
-    "Defesa do Estado e das instituições democráticas",
-    "Teoria geral dos Direitos Humanos (conceito, estrutura, fundamento, classificação)",
-    "Evolução histórica e gerações de direitos humanos",
-    "Direitos e garantias processuais; tratados internacionais de DH",
-    "Natureza jurídica da incorporação de normas internacionais de DH ao direito interno",
-    "Declaração Universal dos Direitos Humanos (ONU, 1948)",
-    "Convenção contra a Tortura e outros Tratamentos Cruéis (1984)",
-    "Convenção Americana sobre DH (Pacto de São José — Dec. 678/1992)",
-    "Bloco de constitucionalidade e controle de convencionalidade",
-    "Conselho Nacional dos Direitos Humanos — CNDH (Lei 12.986/2014)",
-    "Lei nº 13.060/2014 (uso de instrumentos de menor potencial ofensivo)",
-    "Código de Conduta para Aplicação da Lei (Res. ONU 34/169 de 1979)",
-    "Sistema Interamericano de Direitos Humanos"
-  ]},
-  {id:"adm", nm:"Direito Administrativo", q:null, nuc:true, topics:[
-    "Regime jurídico-administrativo e princípios",
-    "Poderes e deveres da Administração (regulamentar, hierárquico, disciplinar, de polícia; uso e abuso; discricionariedade e vinculação)",
-    "Organização administrativa (centralização/descentralização; concentração/desconcentração; direta e indireta)",
-    "Atos administrativos: conceito, requisitos, atributos, classificação, espécies, extinção e convalidação",
-    "Responsabilidade civil do Estado",
-    "Improbidade administrativa (Lei nº 8.429/1992)",
-    "Processo administrativo (Lei nº 9.784/1999)",
-    "Licitações e contratos administrativos (Lei nº 14.133/2021)",
-    "Serviços públicos (conceito, princípios, concessão, permissão, autorização, PPP)",
-    "Agentes públicos (espécies, cargo/emprego/função, concurso, remuneração, acumulação)",
-    "Controle da Administração (administrativo, judicial, legislativo)",
-    "Bens públicos",
-    "Lei de Acesso à Informação (Lei nº 12.527/2011)"
-  ]},
-  {id:"pen", nm:"Direito Penal", q:null, nuc:false, topics:[
-    "Princípios aplicáveis ao Direito Penal",
-    {t:"Lei penal", subs:["Lei penal em branco","Lei penal no tempo e no espaço","Conflito aparente de leis penais","Tempo e lugar do crime","Territorialidade e extraterritorialidade","Lei penal excepcional e temporária"]},
-    {t:"Teoria geral do crime", subs:["Conceito, objeto e sujeitos","Classificação dos crimes","Fato típico (conduta, resultado, nexo, tipicidade)","Teoria do tipo","Crime doloso, culposo e preterdoloso","Erro de tipo, de proibição, descriminantes putativas, crime putativo","Iter criminis","Consumação e tentativa","Desistência, arrependimento, crime impossível","Ilicitude e causas de exclusão","Excesso","Culpabilidade","Imputabilidade, consciência da ilicitude, exigibilidade","Concurso de pessoas","Crime e contravenção penal"]},
-    {t:"Das penas", subs:["Privativa de liberdade","Restritivas de direitos","Multa","Aplicação e limite","Concurso de crimes","Suspensão condicional da pena","Livramento condicional","Efeitos da condenação","Reabilitação e medidas de segurança"]},
-    "Extinção da punibilidade",
-    {t:"Crimes na parte especial", subs:["Contra a pessoa","Contra o patrimônio","Contra a dignidade sexual","Contra a incolumidade pública","Contra a paz pública","Contra a fé pública","Contra a administração pública","Contra o Estado Democrático de Direito"]},
-    "Lei nº 13.869/2019 — Abuso de Autoridade",
-    "Lei nº 7.716/1989 — Crimes de Preconceito de Raça ou Cor",
-    "Lei nº 8.069/1990 — ECA (ato infracional e crimes em espécie)",
-    "Lei nº 8.072/1990 — Crimes Hediondos",
-    "Lei nº 9.503/1997 — Crimes de Trânsito",
-    "Lei nº 9.455/1997 — Tortura",
-    "Lei nº 9.605/1998 — Crimes Ambientais",
-    "Lei nº 10.826/2003 — Estatuto do Desarmamento",
-    "Lei nº 11.343/2006 — Lei de Drogas"
-  ]},
-  {id:"procpen", nm:"Direito Processual Penal", q:null, nuc:false, topics:[
-    "Noções introdutórias (princípios, sistemas, lei processual no tempo/espaço/pessoas, fontes, interpretação)",
-    {t:"Investigação preliminar", subs:["Inquérito policial","Termo circunstanciado de ocorrência","Demais investigações preliminares","Acordo de não persecução penal","Controle externo da atividade policial"]},
-    "Ação penal e ação civil ex delicto",
-    "Jurisdição e competência criminal",
-    {t:"Provas", subs:["Teoria geral das provas","Meios de prova e de obtenção de prova"]},
-    "Medidas cautelares pessoais (prisões e diversas da prisão)",
-    "Liberdade provisória",
-    "Medidas cautelares reais (assecuratórias)",
-    "Procedimento comum (ordinário, sumário, sumaríssimo)",
-    "Nulidades",
-    "Lei nº 7.960/1989 — Prisão Temporária",
-    "Lei nº 9.099/1995 — Juizados Especiais Criminais",
-    "Lei nº 9.296/1996 — Interceptação Telefônica",
-    "Lei nº 11.340/2006 — Maria da Penha",
-    "Lei nº 12.850/2013 — Organizações Criminosas",
-    "Lei nº 12.037/2009 — Identificação Criminal"
-  ]},
-  {id:"penmil", nm:"Direito Penal Militar", q:null, nuc:false, topics:[
-    "Aplicação da lei penal militar",
-    "Crime",
-    "Imputabilidade penal",
-    "Concurso de agentes",
-    "Penas principais",
-    "Aplicação da pena",
-    "Suspensão condicional da pena",
-    "Livramento condicional",
-    "Penas acessórias",
-    "Efeitos da condenação",
-    "Medidas de segurança",
-    "Ação penal",
-    "Extinção da punibilidade",
-    "Crimes militares em tempo de paz",
-    "Crimes propriamente militares",
-    "Crimes impropriamente militares"
-  ]},
-  {id:"procpenmil", nm:"Direito Processual Penal Militar", q:null, nuc:false, topics:[
-    "Lei de Processo Penal Militar e sua aplicação",
-    "Polícia judiciária militar",
-    "Inquérito policial militar",
-    "Ação penal militar e seu exercício",
-    "Processo",
-    "Denúncia",
-    "Jurisdição e competência",
-    "Questões prejudiciais e incidentes",
-    "Medidas preventivas e assecuratórias",
-    "Atos probatórios",
-    "Processo ordinário",
-    "Processos especiais",
-    "Nulidades e recursos"
-  ]},
-  {id:"crimi", nm:"Criminologia", q:null, nuc:false, topics:[
-    {t:"Criminologia", subs:["Conceito e características","Objeto","Método e finalidade","Funções","Classificação"]},
-    {t:"História da criminologia", subs:["Escola Clássica","Escola Positiva","Escola de Política Criminal","Terza Scuola"]},
-    "Estatística criminal, cifra negra, cifra dourada e prognóstico criminal",
-    "Sociologia criminal",
-    "Vitimologia",
-    "Prevenção criminal",
-    "Fatores sociais de criminalidade",
-    "Instâncias de controle",
-    "Crimes do colarinho branco"
-  ]}
- ]}
-];
+/* ===== DADOS DO CRONOGRAMA ===== */
+const D=(dia,tag,blocos,weekend)=>({dia,tag,blocos,weekend:!!weekend});
+const b=(slot,label,kind)=>({slot,label,kind});
 
-/* ============ LINKS GRATUITOS ============ */
-const YT="https://www.youtube.com/results?search_query=";
-const QC="https://www.qconcursos.com/questoes-de-concursos/questoes";
-const aula=(q,label)=>({kind:"aula",label:label||"Aulas",url:YT+q});
-const lei =(label,url)=>({kind:"lei",label:label,url:url});
-const quest=()=>({kind:"quest",label:"Questões",url:QC});
-
-const EC="https://www.estrategiaconcursos.com.br/app/";
-const estr=(label)=>({kind:"estr",label:label,url:EC});
-
-const LINKS={
- port:[estr("Estratégia — PM-DF Português"),{kind:"aula",label:"Prof. Noslen",url:"https://www.youtube.com/channel/UCwSxSJqGpSRpEsq5-YUbM8g"},quest()],
- ing:[estr("Estratégia — PM-DF Inglês"),aula("ingl%C3%AAs+reading+interpreta%C3%A7%C3%A3o+concurso","Inglês (reading)"),quest()],
- mat:[estr("Estratégia — PM-DF Matemática e RLM"),aula("racioc%C3%ADnio+l%C3%B3gico+matem%C3%A1tica+concurso+aula","Aulas de RLM"),quest()],
- atu:[estr("Estratégia — Passo Estratégico de Atualidades"),{kind:"lei",label:"Atlas do DF (CODEPLAN)",url:"https://www.google.com/search?q=Atlas+do+Distrito+Federal+CODEPLAN+pdf"},aula("atualidades+Distrito+Federal+RIDE+concurso","Aulas")],
- leg:[estr("Estratégia — Legislação Aplicável à PMDF"),lei("Leis da PMDF (SINJ-DF)","https://www.sinj.df.gov.br/sinj/Norma/66634/LODF"),aula("legisla%C3%A7%C3%A3o+PMDF+estatuto+concurso+aula","Aulas"),quest()],
- const:[estr("Estratégia — Direito Constitucional"),lei("CF/88 — lei seca","http://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"),aula("direito+constitucional+concurso+aula","Aulas"),quest()],
- adm:[estr("Estratégia — Direito Administrativo"),lei("Lei 14.133 + correlatas","https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm"),aula("direito+administrativo+concurso+aula","Aulas"),quest()],
- pen:[estr("Estratégia — Direito Penal"),estr("Estratégia — Legislação Penal Especial"),lei("Código Penal","https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm"),aula("direito+penal+concurso+aula","Aulas"),quest()],
- procpen:[estr("Estratégia — Direito Processual Penal"),lei("CPP — lei seca","https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm"),aula("direito+processual+penal+concurso+aula","Aulas"),quest()],
- penmil:[estr("Estratégia — Direito Penal Militar"),lei("Código Penal Militar","https://www.planalto.gov.br/ccivil_03/decreto-lei/del1001.htm"),aula("direito+penal+militar+concurso+aula","Aulas"),quest()],
- procpenmil:[estr("Estratégia — Direito Processual Penal Militar"),lei("CPP Militar","https://www.planalto.gov.br/ccivil_03/decreto-lei/del1002.htm"),aula("processo+penal+militar+concurso+aula","Aulas"),quest()],
- crimi:[estr("Estratégia — Criminologia"),aula("criminologia+concurso+aula","Aulas"),quest()]
-};
-
-const TOOLS=[
- {k:"e",label:"Estratégia — Minhas Matrículas (painel geral)",url:EC},
- {k:"e",label:"Estratégia — Bizu Estratégico (revisão geral)",url:EC},
- {k:"q",label:"Questões grátis — QConcursos (10/dia)",url:"https://www.qconcursos.com/questoes-de-concursos/questoes"},
- {k:"q",label:"Provas p/ baixar — PCI Concursos",url:"https://www.pciconcursos.com.br/provas/"},
- {k:"l",label:"Lei seca federal — Planalto",url:"https://www.planalto.gov.br"},
- {k:"l",label:"Leis do DF e da PMDF — SINJ-DF",url:"https://www.sinj.df.gov.br"}
-];
-
-const EXT='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-left:4px"><path d="M7 17 17 7M9 7h8v8"/></svg>';
-function renderTools(){
-  const tb=document.getElementById("toolsbar");
-  tb.innerHTML='<div class="tlbl">Ferramentas gerais · badges azuis = curso pago (Estratégia), resto é grátis</div>';
-  const row=document.createElement("div"); row.className="toolrow";
-  TOOLS.forEach(t=>{
-    const a=document.createElement("a"); a.className="tool"; a.href=t.url; a.target="_blank"; a.rel="noopener";
-    const kl=t.k==="q"?"Q":(t.k==="e"?"EC":"Lei");
-    a.innerHTML='<span class="k '+t.k+'">'+kl+'</span>'+t.label+EXT;
-    row.appendChild(a);
-  });
-  tb.appendChild(row);
+const PHASES=[
+{
+  id:"f1", pn:"Fase 1 · Mês 1–2", pt:"Fundação", pm:"Núcleo comum + base jurídica",
+  pf:"Travar a base que também cai na PRF: Português, RLM, Constitucional e Administrativo. Teoria pesada agora, questões leves.",
+  foco:"<b>Foco da fase:</b> dominar do zero o núcleo comum (Português, RLM, Direito Constitucional/DH e Administrativo). Lei seca + teoria. Questões só pra fixar, sem cobrança de volume ainda.",
+  dias:[
+   D("Seg","Português + Constitucional",[b("Manhã","Português — teoria (gramática que mais cai)","teoria"),b("Noite","Constitucional/DH — teoria","teoria"),b("Treino","Força — glúteos/inferiores","fisico")]),
+   D("Ter","RLM + Administrativo",[b("Manhã","RLM — estruturas lógicas / proposições","teoria"),b("Noite","Dir. Administrativo — teoria","teoria"),b("Treino","Corrida base (aeróbico leve)","fisico")]),
+   D("Qua","Português + Constitucional",[b("Manhã","Português — teoria","teoria"),b("Noite","Constitucional/DH — teoria","teoria"),b("Treino","Força — superiores + core (barra)","fisico")]),
+   D("Qui","RLM + Administrativo",[b("Manhã","RLM — exercícios guiados","teoria"),b("Noite","Dir. Administrativo — teoria","teoria"),b("Treino","Corrida base","fisico")]),
+   D("Sex","Fixação",[b("Manhã","Português — questões da semana","questoes"),b("Noite","Legislação PMDF — lei seca (leve)","teoria"),b("Treino","Força — glúteos","fisico")]),
+   D("Sáb","Consolidar",[b("Bloco 1","Revisão ativa da semana (flashcards)","revisao"),b("Bloco 2","Questões: Constitucional + Administrativo","questoes"),b("Bloco 3","Questões: Português + RLM","questoes"),b("Bloco 4","Constitucional/DH — avançar teoria","teoria"),b("Treino","Aeróbico longo","fisico")],true),
+   D("Dom","Leve",[b("Bloco 1","Revisão espaçada (o que errou na semana)","revisao"),b("Descanso","Descanso ativo — recuperar","descanso")],true)
+  ]
+},
+{
+  id:"f2", pn:"Fase 2 · Mês 3–4", pt:"Aprofundamento", pm:"Específicos pesados + manter núcleo",
+  pf:"Entram Penal, Processual Penal, os militares e Criminologia. Núcleo vira revisão + questões. Começa a redação semanal.",
+  foco:"<b>Foco da fase:</b> os Específicos que valem 40 pontos (Penal, Proc. Penal, Penal Militar, Proc. Penal Militar, Criminologia). O núcleo agora é mantido por questões e revisão. 1 redação cronometrada por semana.",
+  dias:[
+   D("Seg","Penal + núcleo",[b("Manhã","Dir. Penal — teoria (parte geral)","teoria"),b("Noite","Questões: Português + Constitucional","questoes"),b("Treino","Força","fisico")]),
+   D("Ter","Proc. Penal + PMDF",[b("Manhã","Dir. Processual Penal — teoria","teoria"),b("Noite","Legislação PMDF — lei seca + questões","teoria"),b("Treino","Corrida (subir volume → 2.100 m)","fisico")]),
+   D("Qua","Penal Militar + Atualidades",[b("Manhã","Penal / Penal Militar — teoria","teoria"),b("Noite","Atualidades DF/RIDE","teoria"),b("Treino","Força — glúteos","fisico")]),
+   D("Qui","Proc. Penal Militar + Inglês",[b("Manhã","Proc. Penal / Proc. Penal Militar — teoria","teoria"),b("Noite","Inglês — reading (texto curto)","teoria"),b("Treino","Corrida + natação","fisico")]),
+   D("Sex","Criminologia + fixação",[b("Manhã","Criminologia — teoria","teoria"),b("Noite","Questões dos específicos da semana","questoes"),b("Treino","Força","fisico")]),
+   D("Sáb","Treino de prova",[b("Bloco 1","Redação — 1 dissertação cronometrada","redacao"),b("Bloco 2","Questões mistas (todas as matérias)","questoes"),b("Bloco 3","Revisão dos específicos da semana","revisao"),b("Bloco 4","Mini-simulado parcial (40 questões)","questoes"),b("Treino","Simulação de TAF (corrida + barra)","fisico")],true),
+   D("Dom","Ciclo de revisão",[b("Bloco 1","Revisão espaçada (caderno de erros)","revisao"),b("Bloco 2","Lei seca em ciclo","revisao"),b("Descanso","Descanso","descanso")],true)
+  ]
+},
+{
+  id:"f3", pn:"Fase 3 · Mês 5–6", pt:"Reta Final", pm:"Revisão + questões + simulados",
+  pf:"Pouca teoria nova. Revisão por incidência, bateria diária de questões (Cebraspe Certo/Errado se confirmado) e simulado completo todo sábado.",
+  foco:"<b>Foco da fase:</b> revisar por incidência e resolver MUITAS questões no formato da banca. Simulado completo cronometrado por semana + redação corrigida. Treino de TAF em simulação real.",
+  dias:[
+   D("Seg","Revisão + bateria",[b("Manhã","Revisão por incidência — Penal + Proc. Penal","revisao"),b("Noite","Bateria de questões (Cebraspe)","questoes"),b("Treino","Força","fisico")]),
+   D("Ter","Revisão + bateria",[b("Manhã","Revisão — Constitucional + Adm + DH","revisao"),b("Noite","Bateria de questões + caderno de erros","questoes"),b("Treino","Corrida em ritmo de 2.100 m","fisico")]),
+   D("Qua","Revisão + bateria",[b("Manhã","Revisão — Militares + Criminologia","revisao"),b("Noite","Bateria de questões","questoes"),b("Treino","Força — glúteos","fisico")]),
+   D("Qui","Revisão + bateria",[b("Manhã","Revisão — Português + Legislação PMDF","revisao"),b("Noite","Bateria de questões","questoes"),b("Treino","Corrida + natação (50 m)","fisico")]),
+   D("Sex","Revisão + bateria",[b("Manhã","Revisão — RLM + Atualidades + Inglês","revisao"),b("Noite","Questões + correção dos erros","questoes"),b("Treino","Barra estática + abdominal remador","fisico")]),
+   D("Sáb","Simulado completo",[b("Bloco 1","SIMULADO — 80 questões cronometrado","questoes"),b("Bloco 2","SIMULADO — continuação","questoes"),b("Bloco 3","Redação cronometrada (30 linhas)","redacao"),b("Bloco 4","Conferir gabarito + marcar erros","revisao"),b("Treino","Simulação completa de TAF","fisico")],true),
+   D("Dom","Correção",[b("Bloco 1","Correção do simulado + caderno de erros","revisao"),b("Bloco 2","Reescrever a redação com as correções","redacao"),b("Descanso","Descanso","descanso")],true)
+  ]
 }
-function discLinksEl(id){
-  const arr=LINKS[id]; if(!arr) return null;
-  const wrap=document.createElement("div"); wrap.className="studylinks";
-  const lbl=document.createElement("span");
-  lbl.style.cssText="font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:1.2px;font-size:10.5px;color:var(--faint);align-self:center;margin-right:2px";
-  lbl.textContent="Onde estudar:"; wrap.appendChild(lbl);
-  const ic={aula:'▶',lei:'§',quest:'✓',estr:'🎓'};
-  arr.forEach(l=>{
-    const a=document.createElement("a"); a.className="slk "+l.kind; a.href=l.url; a.target="_blank"; a.rel="noopener";
-    a.innerHTML='<span style="font-weight:800">'+ic[l.kind]+'</span>'+l.label+EXT;
-    wrap.appendChild(a);
-  });
-  return wrap;
-}
-
-const RANKS = [
-  {min:0,   name:"Recruta",            chev:"·"},
-  {min:8,   name:"Aluno-Soldado",      chev:"›"},
-  {min:22,  name:"Soldado 2ª Classe",  chev:"›"},
-  {min:38,  name:"Soldado 1ª Classe",  chev:"››"},
-  {min:54,  name:"Cabo",               chev:"››"},
-  {min:68,  name:"3º Sargento",        chev:"›››"},
-  {min:80,  name:"2º Sargento",        chev:"›››"},
-  {min:90,  name:"1º Sargento",        chev:"››››"},
-  {min:100, name:"Subtenente — APROVADA",chev:"★"}
 ];
 
-/* ============ STATE + STORAGE ============ */
-const KEY = "pmdf_verticalizado_v1";
-let state = {};        // { leafId: {t,r,q} }
-let memOnly = false;
-const $ = s => document.querySelector(s);
+/* ===== DISCIPLINAS DO EDITAL (novo) =====
+   Usadas pelos módulos de Videoaulas e Quadro de Questões. */
+const DISCIPLINAS=[
+  {id:"portugues",nome:"Português"},
+  {id:"rlm",nome:"RLM — Raciocínio Lógico"},
+  {id:"constitucional",nome:"Direito Constitucional"},
+  {id:"dh",nome:"Direitos Humanos"},
+  {id:"administrativo",nome:"Direito Administrativo"},
+  {id:"penal",nome:"Direito Penal"},
+  {id:"processual_penal",nome:"Direito Processual Penal"},
+  {id:"penal_militar",nome:"Direito Penal Militar"},
+  {id:"processual_penal_militar",nome:"Direito Processual Penal Militar"},
+  {id:"criminologia",nome:"Criminologia"},
+  {id:"legislacao_pmdf",nome:"Legislação Aplicável à PMDF"},
+  {id:"atualidades",nome:"Atualidades DF / RIDE"},
+  {id:"ingles",nome:"Inglês"}
+];
 
-// stable id per leaf
-function leafId(discId, ti, si){ return discId+"."+ti+(si!=null?("."+si):""); }
-function getCell(id){ return state[id] || (state[id]={t:false,r:false,q:false}); }
+/* ===== HELPERS DE DATA (novo) — usados por revisão espaçada, pomodoro e histórico ===== */
+function pad2(n){return String(n).padStart(2,"0");}
+function todayKey(d){d=d||new Date();return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());}
+function addDaysKey(days,baseKey){const d=baseKey?new Date(baseKey+"T00:00:00"):new Date();d.setDate(d.getDate()+days);return todayKey(d);}
+function fmtDateBR(key){const p=key.split("-");return p[2]+"/"+p[1];}
+const WEEKDAY_BY_JSDAY=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"]; // Date#getDay(): 0=Dom ... 6=Sáb
+function todayWeekdayLabel(){return WEEKDAY_BY_JSDAY[new Date().getDay()];}
 
-// collect all leaf ids
-let ALL_LEAVES = [];
-EDITAL.forEach(b=>b.disciplines.forEach(d=>{
-  d.topics.forEach((t,ti)=>{
-    if(typeof t==="object"){ t.subs.forEach((s,si)=> ALL_LEAVES.push(leafId(d.id,ti,si))); }
-    else ALL_LEAVES.push(leafId(d.id,ti));
+/* ===== STATE / STORAGE ===== */
+const KEY="pmdf_cronograma_v1";
+/* Monta um objeto {disciplinaId: valorPadrao} para todas as disciplinas do edital */
+function freshDiscMap(build){const m={};DISCIPLINAS.forEach(d=>{m[d.id]=build();});return m;}
+/* Estado padrão completo — inclui o estado original do cronograma + todos os novos módulos */
+function defaultState(){
+  return {
+    phase:"f1", done:{}, streak:0, weeks:0, presencial:false,          // === original ===
+    videos:freshDiscMap(()=>[]),                                       // === novo: videoaulas por disciplina ===
+    questoes:freshDiscMap(()=>({meta:0,feitas:0,acertos:0})),          // === novo: quadro de questões por disciplina ===
+    revisoes:[],                                                       // === novo: revisão espaçada (D+1/D+7/D+30) ===
+    historico:{},                                                      // === novo: registro diário {YYYY-MM-DD:{videos,questoesFeitas,questoesAcertos,segundos}} ===
+    pomodoro:{focoMin:25,pausaMin:5}                                   // === novo: preferências do timer pomodoro ===
+  };
+}
+let state=defaultState();
+/* Garante que estados salvos antes da atualização (ou backups antigos) ganhem os novos campos sem perder nada */
+function normalizeState(){
+  if(!state.videos)state.videos={};
+  if(!state.questoes)state.questoes={};
+  if(!Array.isArray(state.revisoes))state.revisoes=[];
+  if(!state.historico)state.historico={};
+  if(!state.pomodoro)state.pomodoro={focoMin:25,pausaMin:5};
+  DISCIPLINAS.forEach(disc=>{
+    if(!Array.isArray(state.videos[disc.id]))state.videos[disc.id]=[];
+    if(!state.questoes[disc.id])state.questoes[disc.id]={meta:0,feitas:0,acertos:0};
   });
-}));
+}
+let memOnly=false;
+const $=s=>document.querySelector(s);
 
-/* Portable storage: tries Claude storage, then browser localStorage, then memory.
-   Works the same whether opened inside Claude or hosted on GitHub Pages. */
+function blockId(pid,di,bi){return pid+"."+di+"."+bi;}
+function isCheckable(blk){return blk.kind!=="descanso";}
+
 const Store={
   async get(k){
     try{ if(window.storage&&window.storage.get){ const r=await window.storage.get(k); if(r&&r.value!=null) return r.value; } }catch(e){}
@@ -582,271 +571,567 @@ const Store={
     try{ localStorage.removeItem(k); }catch(e){}
   }
 };
-async function load(){
-  try{ const v=await Store.get(KEY); if(v) state=JSON.parse(v); }catch(e){}
-}
-let saveTimer=null;
-async function save(){
-  flagSaved();
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{ Store.set(KEY, JSON.stringify(state)); },250);
-}
-function flagSaved(){ const s=$("#saved"); s.classList.add("show"); clearTimeout(flagSaved._t); flagSaved._t=setTimeout(()=>s.classList.remove("show"),1100); }
+async function load(){try{const v=await Store.get(KEY);if(v)state=Object.assign(state,JSON.parse(v));}catch(e){} normalizeState();}
+let st=null;
+async function save(){flagSaved();clearTimeout(st);st=setTimeout(()=>{Store.set(KEY,JSON.stringify(state));},250);}
+function flagSaved(){const s=$("#saved");s.classList.add("show");clearTimeout(flagSaved._t);flagSaved._t=setTimeout(()=>s.classList.remove("show"),1100);}
 
-/* ============ STATUS HELPERS ============ */
-// status of a leaf: 0 none, 1 estudando (T), 2 revisar (T+R or partial), 3 dominado (T+R+Q)
-function leafStatus(id){
-  const c=getCell(id); const n=(c.t?1:0)+(c.r?1:0)+(c.q?1:0);
-  if(n===0) return 0;
-  if(c.t&&c.r&&c.q) return 3;
-  if(c.t&&!c.r) return 1;
-  return 2;
-}
-function progressOfDisc(d){
-  let on=0,total=0;
-  d.topics.forEach((t,ti)=>{
-    if(typeof t==="object"){ t.subs.forEach((s,si)=>{const c=getCell(leafId(d.id,ti,si));total+=3;on+=(c.t?1:0)+(c.r?1:0)+(c.q?1:0);}); }
-    else { const c=getCell(leafId(d.id,ti));total+=3;on+=(c.t?1:0)+(c.r?1:0)+(c.q?1:0); }
+/* ===== RENDER ===== */
+function curPhase(){return PHASES.find(p=>p.id===state.phase)||PHASES[0];}
+
+function renderTimeline(){
+  const tl=$("#timeline");tl.innerHTML="";
+  PHASES.forEach(p=>{
+    const el=document.createElement("div");el.className="ph"+(p.id===state.phase?" active":"");
+    el.innerHTML='<div class="pn">'+p.pn+'</div><div class="pt">'+p.pt+'</div><div class="pm">'+p.pm+'</div><div class="pf">'+p.pf+'</div>';
+    el.addEventListener("click",()=>{state.phase=p.id;save();renderAll();});
+    tl.appendChild(el);
   });
-  return {on,total,pct: total?Math.round(on/total*100):0};
 }
 
-/* ============ RENDER ============ */
-const content = $("#content");
-function tgEl(id,key,small){
-  const c=getCell(id);
-  const b=document.createElement("button");
-  b.className="tg "+key+(c[key]?" on":""); b.textContent=key.toUpperCase();
-  b.title={t:"Teoria estudada",r:"Revisão feita",q:"Questões resolvidas"}[key];
-  b.addEventListener("click",ev=>{
-    ev.stopPropagation();
-    const cell=getCell(id); cell[key]=!cell[key];
-    b.classList.toggle("on",cell[key]);
-    save(); refreshAggregates(); refreshRowState(id);
-  });
-  return b;
-}
-
-function build(){
-  content.innerHTML="";
-  EDITAL.forEach(b=>{
-    const h=document.createElement("div"); h.className="blockhead"; h.textContent=b.block;
-    content.appendChild(h);
-    b.disciplines.forEach(d=>{
-      const card=document.createElement("div"); card.className="disc"; card.dataset.disc=d.id;
-      // head
-      const head=document.createElement("div"); head.className="dhead";
-      const arrow=document.createElement("span"); arrow.className="arrow"; arrow.textContent="▶";
-      const title=document.createElement("div"); title.className="dtitle";
-      const nm=document.createElement("div"); nm.className="nm";
-      nm.appendChild(document.createTextNode(d.nm));
-      if(d.q){const t=document.createElement("span");t.className="tag q";t.textContent=d.q+" questões";nm.appendChild(t);}
-      if(d.nuc){const t=document.createElement("span");t.className="tag nuc";t.textContent="núcleo comum";nm.appendChild(t);}
-      const meta=document.createElement("div"); meta.className="dmeta"; meta.dataset.meta=d.id;
-      title.appendChild(nm); title.appendChild(meta);
-      const prog=document.createElement("div"); prog.className="dprog";
-      const num=document.createElement("div"); num.className="num"; num.dataset.num=d.id; num.textContent="0%";
-      const dbar=document.createElement("div"); dbar.className="dbar"; const dfill=document.createElement("i"); dfill.dataset.fill=d.id; dbar.appendChild(dfill);
-      prog.appendChild(num); prog.appendChild(dbar);
-      head.appendChild(arrow); head.appendChild(title); head.appendChild(prog);
-      head.addEventListener("click",()=>card.classList.toggle("open"));
-      card.appendChild(head);
-      // body
-      const body=document.createElement("div"); body.className="dbody";
-      const dl=discLinksEl(d.id); if(dl) body.appendChild(dl);
-      d.topics.forEach((t,ti)=>{
-        const isObj = typeof t==="object";
-        const row=document.createElement("div"); row.className="topic"; 
-        const trow=document.createElement("div"); trow.className="trow";
-        const tnum=document.createElement("div"); tnum.className="tnum"; tnum.textContent=(ti+1)+".";
-        const lab=document.createElement("div"); lab.className="tlabel"; lab.textContent=isObj?t.t:t;
-        trow.appendChild(tnum); trow.appendChild(lab);
-        if(!isObj){
-          const id=leafId(d.id,ti); row.dataset.leaf=id;
-          row.dataset.search=(t).toLowerCase();
-          const tg=document.createElement("div"); tg.className="toggles";
-          ["t","r","q"].forEach(k=>tg.appendChild(tgEl(id,k)));
-          trow.appendChild(tg);
-        } else {
-          row.dataset.search=(t.t+" "+t.subs.join(" ")).toLowerCase();
-        }
-        row.appendChild(trow);
-        if(isObj){
-          const subs=document.createElement("div"); subs.className="subs";
-          t.subs.forEach((s,si)=>{
-            const id=leafId(d.id,ti,si);
-            const si_=document.createElement("div"); si_.className="sub-i"; si_.dataset.leaf=id; si_.dataset.search=s.toLowerCase();
-            const dot=document.createElement("span"); dot.className="sdot";
-            const sl=document.createElement("div"); sl.className="slabel"; sl.textContent=s;
-            const tg=document.createElement("div"); tg.className="toggles";
-            ["t","r","q"].forEach(k=>tg.appendChild(tgEl(id,k)));
-            si_.appendChild(dot); si_.appendChild(sl); si_.appendChild(tg);
-            subs.appendChild(si_);
-          });
-          row.appendChild(subs);
-        }
-        body.appendChild(row);
-      });
-      card.appendChild(body);
-      content.appendChild(card);
-    });
-  });
-  // init row states
-  ALL_LEAVES.forEach(refreshRowState);
-  refreshAggregates();
-}
-
-function refreshRowState(id){
-  const st=leafStatus(id);
-  const row=document.querySelector('[data-leaf="'+CSS.escape(id)+'"]');
-  if(!row) return;
-  row.classList.toggle("done", st===3);
-}
-
-function refreshAggregates(){
-  // discipline bars
-  let totOn=0,totAll=0, dom=0, rev=0, est=0, totLeaves=0;
-  EDITAL.forEach(b=>b.disciplines.forEach(d=>{
-    const p=progressOfDisc(d); totOn+=p.on; totAll+=p.total;
-    const num=document.querySelector('[data-num="'+d.id+'"]');
-    const fill=document.querySelector('[data-fill="'+d.id+'"]');
-    const meta=document.querySelector('[data-meta="'+d.id+'"]');
-    if(num) num.textContent=p.pct+"%";
-    if(fill) fill.style.width=p.pct+"%";
-    // count leaves & statuses for this disc
-    let leaves=0,dDom=0;
-    d.topics.forEach((t,ti)=>{
-      if(typeof t==="object") t.subs.forEach((s,si)=>{leaves++;totLeaves++;const st=leafStatus(leafId(d.id,ti,si));if(st===3){dom++;dDom++}else if(st===2)rev++;else if(st===1)est++;});
-      else {leaves++;totLeaves++;const st=leafStatus(leafId(d.id,ti));if(st===3){dom++;dDom++}else if(st===2)rev++;else if(st===1)est++;}
-    });
-    if(meta) meta.textContent=dDom+" de "+leaves+" tópicos dominados";
-  }));
-  const pct = totAll?Math.round(totOn/totAll*100):0;
-  $("#pct").textContent=pct+"%"; $("#barFill").style.width=pct+"%";
-  $("#sDom").textContent=dom; $("#sRev").textContent=rev; $("#sEst").textContent=est; $("#sTot").textContent=totLeaves;
-  // rank
-  let r=RANKS[0], next=null;
-  for(let i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].min){ r=RANKS[i]; next=RANKS[i+1]||null; } }
-  $("#rankName").textContent=r.name; $("#chev").textContent=r.chev;
-  $("#nextRank").textContent = next ? ("Próxima: "+next.name+" aos "+next.min+"%") : "Patente máxima atingida 🎖";
-}
-
-/* ============ FILTERS + SEARCH ============ */
-let curFilter="all", curSearch="";
-function applyView(){
-  EDITAL.forEach(b=>b.disciplines.forEach(d=>{
-    const card=document.querySelector('[data-disc="'+d.id+'"]');
-    let anyVisible=false;
-    const rows=card.querySelectorAll('.topic');
-    rows.forEach(row=>{
-      // a topic row: visible if its own leaf or any sub passes
-      const leaf=row.dataset.leaf;
-      let visible=false;
-      if(leaf){ visible = passes(leaf, row.dataset.search); }
-      else {
-        // parent w/ subs
-        const subs=row.querySelectorAll('.sub-i'); let subVis=false;
-        subs.forEach(si=>{
-          const ok=passes(si.dataset.leaf, si.dataset.search);
-          si.classList.toggle("hidden",!ok);
-          if(ok) subVis=true;
+function renderWeek(){
+  const p=curPhase();
+  $("#focusbar").innerHTML=p.foco;
+  const wk=$("#week");wk.innerHTML="";
+  p.dias.forEach((d,di)=>{
+    const day=document.createElement("div");day.className="day"+(d.weekend?" weekend":"");
+    const head=document.createElement("div");head.className="dhead";
+    head.innerHTML='<span class="dname">'+d.dia+'</span><span class="dtag">'+d.tag+'</span>';
+    const dp=document.createElement("span");dp.className="dprog";head.appendChild(dp);
+    day.appendChild(head);
+    const blocks=document.createElement("div");blocks.className="blocks";
+    let tot=0,don=0;
+    d.blocos.forEach((blk,bi)=>{
+      const id=blockId(p.id,di,bi);
+      const row=document.createElement("div");
+      const checkable=isCheckable(blk);
+      row.className="blk k-"+blk.kind+(checkable?"":" k-descanso-row");
+      const isDone=checkable && !!state.done[id];
+      if(isDone)row.classList.add("done");
+      const ck=checkable?'<div class="check">✓</div>':'<div class="check" style="border-color:transparent;background:transparent"></div>';
+      row.innerHTML=ck+'<span class="slot">'+blk.slot+'</span><span class="blabel">'+blk.label+'</span><span class="kind k-'+blk.kind+'">'+blk.kind+'</span>';
+      if(checkable){
+        tot++; if(isDone)don++;
+        row.addEventListener("click",()=>{
+          const wasDone=!!state.done[id];
+          state.done[id]=!wasDone;
+          row.classList.toggle("done",state.done[id]);
+          // novo: ao concluir um bloco (não ao desmarcar), agenda revisão espaçada D+1/D+7/D+30
+          if(!wasDone && state.done[id] && blk.kind!=="descanso"){
+            scheduleRevisoes(blk.label,"cronograma:"+id);
+          }
+          save();updateProgress();
         });
-        // also allow parent text match to reveal all subs
-        const textMatch = curSearch && row.dataset.search.includes(curSearch);
-        if(textMatch && curFilter==="all"){ subs.forEach(si=>si.classList.remove("hidden")); subVis=true; }
-        visible=subVis;
       }
-      row.classList.toggle("hidden",!visible);
-      if(visible) anyVisible=true;
+      blocks.appendChild(row);
     });
-    // discipline filter (núcleo)
-    let discPass=true;
-    if(curFilter==="nuc" && !d.nuc) discPass=false;
-    card.classList.toggle("hidden", !anyVisible || !discPass);
-    // auto-open when searching/filtering
-    if((curSearch||curFilter!=="all") && anyVisible && discPass) card.classList.add("open");
-  }));
-  // empty state
-  const visibleCards=document.querySelectorAll('.disc:not(.hidden)').length;
-  let emp=$("#emptyState");
-  if(visibleCards===0){
-    if(!emp){emp=document.createElement("div");emp.id="emptyState";emp.className="empty";emp.textContent="Nenhum tópico encontrado com esse filtro/busca.";content.appendChild(emp);}
-  } else if(emp){ emp.remove(); }
-}
-function passes(leaf, searchText){
-  if(curSearch && !searchText.includes(curSearch)) return false;
-  if(curFilter==="all"||curFilter==="nuc") return true;
-  const st=leafStatus(leaf);
-  if(curFilter==="pend") return st===0 || st===1; // não iniciado ou em andamento
-  if(curFilter==="rev")  return st===2;
-  if(curFilter==="dom")  return st===3;
-  return true;
+    day.appendChild(blocks);
+    day.dataset.tot=tot; day.dataset.di=di;
+    dp.dataset.dp=di;
+    wk.appendChild(day);
+  });
+  updateProgress();
 }
 
-/* ============ EVENTS ============ */
-$("#filters").addEventListener("click",e=>{
-  const chip=e.target.closest(".chip"); if(!chip) return;
-  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
-  chip.classList.add("on"); curFilter=chip.dataset.f; applyView();
+function updateProgress(){
+  const p=curPhase();let tot=0,don=0;
+  p.dias.forEach((d,di)=>{
+    let dt=0,dd=0;
+    d.blocos.forEach((blk,bi)=>{
+      if(!isCheckable(blk))return;
+      dt++;tot++;
+      if(state.done[blockId(p.id,di,bi)]){dd++;don++;}
+    });
+    const dp=document.querySelector('[data-dp="'+di+'"]');
+    if(dp)dp.textContent=dd+"/"+dt;
+  });
+  const pct=tot?Math.round(don/tot*100):0;
+  $("#weekPct").textContent=pct+"%";$("#weekFill").style.width=pct+"%";
+  $("#weekCount").textContent=don+" de "+tot+" blocos desta fase";
+  $("#streak").textContent=state.streak;$("#weeksDone").textContent=state.weeks;
+  $("#flame").style.opacity=state.streak>0?"1":".4";
+}
+
+/* ===== ACTIONS ===== */
+function clearMarks(){
+  const p=curPhase();
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{delete state.done[blockId(p.id,di,bi)];}));
+  save();renderWeek();
+}
+$("#clearBtn").addEventListener("click",()=>{ if(confirm("Limpar as marcações desta fase?")) clearMarks(); });
+$("#closeBtn").addEventListener("click",()=>{
+  const p=curPhase();let tot=0,don=0;
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{if(!isCheckable(blk))return;tot++;if(state.done[blockId(p.id,di,bi)])don++;}));
+  const pct=tot?don/tot:0;
+  if(pct>=0.7){
+    state.weeks++; state.streak++;
+    alert("Semana fechada! 🎖  Streak: "+state.streak+" semana(s). Bora pra próxima!");
+  } else {
+    if(!confirm("Você fez "+Math.round(pct*100)+"% da semana (meta: 70%). Fechar mesmo assim? Isso zera o streak.")) return;
+    state.weeks++; state.streak=0;
+  }
+  // reset marks for new week (current phase)
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{delete state.done[blockId(p.id,di,bi)];}));
+  save();renderWeek();updateProgress();
 });
-$("#search").addEventListener("input",e=>{ curSearch=e.target.value.trim().toLowerCase(); applyView(); });
-let allOpen=false;
-$("#expandAll").addEventListener("click",()=>{
-  allOpen=!allOpen;
-  document.querySelectorAll(".disc:not(.hidden)").forEach(c=>c.classList.toggle("open",allOpen));
-  $("#expandAll").textContent=allOpen?"Recolher tudo":"Expandir tudo";
-});
-$("#reset").addEventListener("click",async()=>{
-  if(!confirm("Zerar todo o progresso marcado? Não dá pra desfazer.")) return;
-  state={};
-  try{ await Store.del(KEY); }catch(e){}
-  ALL_LEAVES.forEach(id=>{document.querySelectorAll('[data-leaf="'+CSS.escape(id)+'"] .tg').forEach(b=>b.classList.remove("on"));});
-  ALL_LEAVES.forEach(refreshRowState); refreshAggregates();
-});
-// ----- Backup (exportar) -----
+
+// ----- Backup / Restaurar -----
 $("#backup").addEventListener("click",()=>{
-  const data={app:"pmdf-verticalizado",versao:1,data:new Date().toISOString(),state:state};
+  const data={app:"pmdf-cronograma",versao:1,data:new Date().toISOString(),state:state};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob); const a=document.createElement("a");
-  const d=new Date(); const stamp=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-  a.href=url; a.download="backup-verticalizado-pmdf-"+stamp+".json"; a.click(); URL.revokeObjectURL(url);
+  const url=URL.createObjectURL(blob);const a=document.createElement("a");
+  const d=new Date();const stamp=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  a.href=url;a.download="backup-cronograma-pmdf-"+stamp+".json";a.click();URL.revokeObjectURL(url);
 });
-// ----- Restaurar (importar) -----
 $("#restore").addEventListener("click",()=>$("#restoreFile").click());
 $("#restoreFile").addEventListener("change",e=>{
-  const f=e.target.files[0]; if(!f) return;
+  const f=e.target.files[0];if(!f)return;
   const rd=new FileReader();
   rd.onload=()=>{
     try{
       const obj=JSON.parse(rd.result);
-      const incoming=obj && obj.state ? obj.state : obj;
-      if(typeof incoming!=="object") throw 0;
+      const incoming=obj&&obj.state?obj.state:obj;
+      if(typeof incoming!=="object"||!("done" in incoming)) throw 0;
       if(!confirm("Restaurar este backup? Ele substitui o progresso atual.")) return;
-      state=incoming; save();
-      ALL_LEAVES.forEach(id=>{const c=getCell(id);["t","r","q"].forEach(k=>document.querySelectorAll('[data-leaf="'+CSS.escape(id)+'"] .tg.'+k).forEach(b=>b.classList.toggle("on",!!c[k])));});
-      ALL_LEAVES.forEach(refreshRowState); refreshAggregates();
+      state=Object.assign(defaultState(),incoming);
+      normalizeState();
+      save();renderAll();
       alert("Backup restaurado! 🎖");
-    }catch(err){ alert("Arquivo inválido. Use um backup gerado por este painel."); }
+    }catch(err){ alert("Arquivo inválido. Use um backup gerado por este cronograma."); }
     e.target.value="";
   };
   rd.readAsText(f);
 });
 
-/* ============ INIT ============ */
-(async function(){
-  await load();
-  renderTools();
-  // ensure all leaves exist after load to keep references stable
-  build();
-  // re-sync toggle visuals from loaded state
-  ALL_LEAVES.forEach(id=>{
-    const c=getCell(id);
-    ["t","r","q"].forEach(k=>{
-      document.querySelectorAll('[data-leaf="'+CSS.escape(id)+'"] .tg.'+k).forEach(b=>b.classList.toggle("on",!!c[k]));
+function applyMode(){
+  document.body.classList.toggle("presencial",!!state.presencial);
+  $("#modeswitch").classList.toggle("on",!!state.presencial);
+}
+$("#modeswitch").addEventListener("click",()=>{
+  state.presencial=!state.presencial;
+  applyMode(); save();
+});
+
+function renderAll(){renderTimeline();renderWeek();applyMode();}
+
+/* ===================================================================
+   MÓDULO: REVISÃO ESPAÇADA (novo)
+   Ao concluir qualquer conteúdo (bloco do cronograma ou videoaula),
+   agenda automaticamente 3 revisões: D+1, D+7 e D+30.
+   =================================================================== */
+function scheduleRevisoes(conteudo,origemId){
+  // evita duplicar: se já existem revisões pendentes para essa mesma origem, não cria de novo
+  const jaAtivas=state.revisoes.some(r=>r.origemId===origemId && !r.concluida);
+  if(jaAtivas)return;
+  const hoje=todayKey();
+  [["D+1",1],["D+7",7],["D+30",30]].forEach(([tipo,dias])=>{
+    state.revisoes.push({
+      id:origemId+"|"+tipo+"|"+hoje+"|"+Math.random().toString(36).slice(2,7),
+      tipo, conteudo, origemId,
+      criadoEm:hoje,
+      alvo:addDaysKey(dias,hoje),
+      concluida:false, concluidoEm:null
     });
   });
-  ALL_LEAVES.forEach(refreshRowState);
-  refreshAggregates();
+}
+function revisoesAlvoHoje(){const h=todayKey();return state.revisoes.filter(r=>r.alvo===h);}
+function revisoesDeHoje(){const h=todayKey();return state.revisoes.filter(r=>!r.concluida && r.alvo<=h);} // inclui atrasadas
+function revisoesFuturas(){const h=todayKey();return state.revisoes.filter(r=>!r.concluida && r.alvo>h).sort((a,b)=>a.alvo<b.alvo?-1:1);}
+function revisoesConcluidas(){return state.revisoes.filter(r=>r.concluida).sort((a,b)=>(b.concluidoEm||"").localeCompare(a.concluidoEm||"")).slice(0,25);}
+function toggleRevisao(r){
+  r.concluida=!r.concluida;
+  r.concluidoEm=r.concluida?todayKey():null;
+  save();renderRevisoes();
+}
+function buildRevRow(r){
+  const overdue=!r.concluida && r.alvo<todayKey();
+  const row=document.createElement("div");
+  row.className="revitem"+(overdue?" overdue":"")+(r.concluida?" done":"");
+  row.innerHTML='<div class="revcheck">✓</div><div class="rlabel"><b>'+r.tipo+' · alvo '+fmtDateBR(r.alvo)+'</b>'+escapeHTML(r.conteudo)+'</div>'+
+    '<span class="rtag">'+(r.concluida?"feita":(overdue?"atrasada":"pendente"))+'</span>';
+  row.querySelector(".revcheck").addEventListener("click",()=>toggleRevisao(r));
+  return row;
+}
+function renderRevisoes(){
+  const hoje=revisoesDeHoje(), fut=revisoesFuturas(), fei=revisoesConcluidas();
+  const hojeList=$("#revHojeList");hojeList.innerHTML="";
+  $("#revHojeN").textContent="("+hoje.length+")";
+  if(hoje.length===0)hojeList.innerHTML='<div class="emptyhint">Nenhuma revisão pendente para hoje. 🎉</div>';
+  hoje.forEach(r=>hojeList.appendChild(buildRevRow(r)));
+
+  const futList=$("#revFuturasList");futList.innerHTML="";
+  $("#revFuturasN").textContent="("+fut.length+")";
+  if(fut.length===0)futList.innerHTML='<div class="emptyhint">Nada agendado ainda. Conclua um bloco do cronograma ou uma videoaula pra começar.</div>';
+  fut.slice(0,30).forEach(r=>futList.appendChild(buildRevRow(r)));
+
+  const feiList=$("#revFeitasList");feiList.innerHTML="";
+  $("#revFeitasN").textContent="("+fei.length+")";
+  if(fei.length===0)feiList.innerHTML='<div class="emptyhint">Ainda não concluiu nenhuma revisão.</div>';
+  fei.forEach(r=>feiList.appendChild(buildRevRow(r)));
+}
+function renderDashRevList(){
+  const box=$("#dashRevList");if(!box)return;box.innerHTML="";
+  const hoje=revisoesDeHoje();
+  if(hoje.length===0){box.innerHTML='<div class="emptyhint">Nenhuma revisão pendente para hoje. 🎉</div>';return;}
+  hoje.forEach(r=>box.appendChild(buildRevRow(r)));
+}
+function escapeHTML(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function escapeAttr(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");}
+
+/* ===================================================================
+   MÓDULO: HISTÓRICO DIÁRIO (novo)
+   Registra automaticamente questões, vídeos e tempo estudado por dia,
+   usados no dashboard, na sequência de dias e nos gráficos.
+   =================================================================== */
+function ensureHist(dateKey){
+  if(!state.historico[dateKey])state.historico[dateKey]={videos:0,questoesFeitas:0,questoesAcertos:0,segundos:0};
+  return state.historico[dateKey];
+}
+function logVideoToggle(delta){
+  const h=ensureHist(todayKey());
+  h.videos=Math.max(0,(h.videos||0)+delta);
+  save();
+}
+function logQuestoesDelta(feitasDelta,acertosDelta){
+  if(feitasDelta<=0 && acertosDelta<=0)return; // só registra progresso positivo no histórico do dia
+  const h=ensureHist(todayKey());
+  if(feitasDelta>0)h.questoesFeitas=(h.questoesFeitas||0)+feitasDelta;
+  if(acertosDelta>0)h.questoesAcertos=(h.questoesAcertos||0)+acertosDelta;
+  save();
+}
+function logPomodoroSegundos(segs){
+  const h=ensureHist(todayKey());
+  h.segundos=(h.segundos||0)+segs;
+  save();
+}
+function diasEstudandoSeq(){
+  let n=0;const d=new Date();
+  while(true){
+    const k=todayKey(d);
+    const h=state.historico[k];
+    const teveAtividade=h && ((h.videos||0)>0 || (h.questoesFeitas||0)>0 || (h.segundos||0)>0);
+    if(!teveAtividade)break;
+    n++; d.setDate(d.getDate()-1);
+  }
+  return n;
+}
+function ultimosDias(n){
+  const arr=[];const base=new Date();
+  for(let i=n-1;i>=0;i--){const dd=new Date(base);dd.setDate(dd.getDate()-i);arr.push(todayKey(dd));}
+  return arr;
+}
+
+/* ===================================================================
+   MÓDULO: VIDEOAULAS (novo)
+   Checkboxes dinâmicos por disciplina, sem quantidade fixa.
+   =================================================================== */
+let openDiscVideo={};
+function renderVideoaulas(){
+  const root=$("#videoDisciplinas");root.innerHTML="";
+  let totalAll=0,doneAll=0;
+  DISCIPLINAS.forEach(disc=>{
+    const list=state.videos[disc.id]||[];
+    const done=list.filter(v=>v.feito).length;
+    totalAll+=list.length; doneAll+=done;
+    const pct=list.length?Math.round(done/list.length*100):0;
+    const wrap=document.createElement("div");
+    wrap.className="disc"+(openDiscVideo[disc.id]?" open":"");
+    wrap.innerHTML=
+      '<div class="dischead"><span class="caret">▸</span><span class="dtitle">'+disc.nome+'</span>'+
+      '<span class="dcount">'+done+'/'+list.length+'</span></div>'+
+      '<div class="discbar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="discbody"></div>';
+    wrap.querySelector(".dischead").addEventListener("click",()=>{
+      openDiscVideo[disc.id]=!openDiscVideo[disc.id];
+      wrap.classList.toggle("open",openDiscVideo[disc.id]);
+    });
+    const body=wrap.querySelector(".discbody");
+    if(list.length===0){
+      const hint=document.createElement("div");hint.className="emptyhint";
+      hint.textContent="Nenhuma videoaula ainda. Adicione a primeira abaixo.";
+      body.appendChild(hint);
+    }
+    list.forEach(v=>{
+      const row=document.createElement("div");row.className="vidrow"+(v.feito?" done":"");
+      row.innerHTML='<div class="vidcheck">✓</div><input class="vidname" type="text" value="'+escapeAttr(v.nome)+'"><button class="vidrm" title="Remover vídeo">✕</button>';
+      row.querySelector(".vidcheck").addEventListener("click",()=>{
+        const wasDone=v.feito;
+        v.feito=!v.feito;
+        row.classList.toggle("done",v.feito);
+        logVideoToggle(v.feito?1:-1);
+        if(!wasDone && v.feito) scheduleRevisoes(disc.nome+" — "+v.nome,"video:"+disc.id+":"+v.id);
+        save();renderVideoaulas();
+      });
+      row.querySelector(".vidname").addEventListener("change",e=>{
+        v.nome=e.target.value.trim()||"Sem título"; save();
+      });
+      row.querySelector(".vidrm").addEventListener("click",()=>{
+        state.videos[disc.id]=state.videos[disc.id].filter(x=>x.id!==v.id);
+        save();renderVideoaulas();
+      });
+      body.appendChild(row);
+    });
+    const addBtn=document.createElement("button");addBtn.className="addvid";addBtn.textContent="+ Adicionar vídeo";
+    addBtn.addEventListener("click",()=>{
+      const novo={id:"v"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),nome:"Nova videoaula",feito:false};
+      state.videos[disc.id].push(novo);
+      openDiscVideo[disc.id]=true;
+      save();renderVideoaulas();
+    });
+    body.appendChild(addBtn);
+    root.appendChild(wrap);
+  });
+  const pctAll=totalAll?Math.round(doneAll/totalAll*100):0;
+  $("#vidPct").textContent=pctAll+"%"; $("#vidFill").style.width=pctAll+"%";
+  $("#vidCount").textContent=doneAll+" de "+totalAll+" vídeos assistidos";
+}
+
+/* ===================================================================
+   MÓDULO: QUADRO DE QUESTÕES (novo)
+   Meta, feitas, acertos, erros e % de acerto por disciplina — tudo
+   calculado automaticamente a partir dos campos editáveis.
+   =================================================================== */
+let openDiscQuest={};
+function renderQuestoes(){
+  const root=$("#questoesDisciplinas");root.innerHTML="";
+  let feitasAll=0,acertosAll=0;
+  DISCIPLINAS.forEach(disc=>{
+    const q=state.questoes[disc.id];
+    feitasAll+=q.feitas||0; acertosAll+=q.acertos||0;
+    const erros=Math.max(0,(q.feitas||0)-(q.acertos||0));
+    const pctAcerto=q.feitas?Math.round((q.acertos||0)/q.feitas*100):0;
+    const pctMeta=q.meta?Math.min(100,Math.round((q.feitas||0)/q.meta*100)):0;
+    const accClass=(q.feitas||0)===0?"":(pctAcerto>=70?"good":(pctAcerto>=50?"mid":"bad"));
+    const wrap=document.createElement("div");
+    wrap.className="disc"+(openDiscQuest[disc.id]?" open":"");
+    wrap.innerHTML=
+      '<div class="dischead"><span class="caret">▸</span><span class="dtitle">'+disc.nome+'</span>'+
+      '<span class="dcount">'+(q.feitas||0)+'/'+(q.meta||0)+' meta · '+pctAcerto+'% acerto</span></div>'+
+      '<div class="discbar"><i style="width:'+pctMeta+'%"></i></div>'+
+      '<div class="discbody"><div class="qgrid">'+
+        '<div class="qfield"><label>Meta de questões</label><input type="number" min="0" class="q-meta" value="'+(q.meta||0)+'"></div>'+
+        '<div class="qfield"><label>Questões feitas</label><input type="number" min="0" class="q-feitas" value="'+(q.feitas||0)+'"></div>'+
+        '<div class="qfield"><label>Acertos</label><input type="number" min="0" class="q-acertos" value="'+(q.acertos||0)+'"></div>'+
+        '<div class="qfield acc '+accClass+'"><label>Erros · % acerto</label><div class="qval">'+erros+' · '+pctAcerto+'%</div></div>'+
+      '</div></div>';
+    wrap.querySelector(".dischead").addEventListener("click",()=>{
+      openDiscQuest[disc.id]=!openDiscQuest[disc.id];
+      wrap.classList.toggle("open",openDiscQuest[disc.id]);
+    });
+    const metaInp=wrap.querySelector(".q-meta"),feitasInp=wrap.querySelector(".q-feitas"),acertosInp=wrap.querySelector(".q-acertos");
+    metaInp.addEventListener("change",()=>{
+      q.meta=Math.max(0,parseInt(metaInp.value,10)||0);
+      save();renderQuestoes();
+    });
+    feitasInp.addEventListener("change",()=>{
+      const novo=Math.max(0,parseInt(feitasInp.value,10)||0);
+      const delta=novo-(q.feitas||0);
+      q.feitas=novo;
+      if((q.acertos||0)>novo)q.acertos=novo; // acertos nunca pode passar de feitas
+      if(delta>0)logQuestoesDelta(delta,0);
+      save();renderQuestoes();
+    });
+    acertosInp.addEventListener("change",()=>{
+      let novo=Math.max(0,parseInt(acertosInp.value,10)||0);
+      if(novo>(q.feitas||0))novo=q.feitas||0;
+      const delta=novo-(q.acertos||0);
+      q.acertos=novo;
+      if(delta>0)logQuestoesDelta(0,delta);
+      save();renderQuestoes();
+    });
+    root.appendChild(wrap);
+  });
+  const pctGeral=feitasAll?Math.round(acertosAll/feitasAll*100):0;
+  $("#qGeralPct").textContent=pctGeral+"%"; $("#qGeralFill").style.width=pctGeral+"%";
+  $("#qGeralCount").textContent=feitasAll+" questões feitas · "+acertosAll+" acertos";
+}
+
+/* ===================================================================
+   MÓDULO: DASHBOARD GERAL (novo)
+   =================================================================== */
+function tarefasDeHoje(){
+  // tarefas do cronograma previstas para o dia da semana de hoje, na fase atual
+  const p=curPhase();
+  const wd=todayWeekdayLabel();
+  let tot=0,don=0;
+  p.dias.forEach((d,di)=>{
+    if(d.dia!==wd)return;
+    d.blocos.forEach((blk,bi)=>{
+      if(!isCheckable(blk))return;
+      tot++; if(state.done[blockId(p.id,di,bi)])don++;
+    });
+  });
+  // + revisões cujo alvo é hoje
+  const revs=revisoesAlvoHoje();
+  tot+=revs.length; don+=revs.filter(r=>r.concluida).length;
+  return {tot,don};
+}
+function renderDashboard(){
+  const diaNomeEl=$("#dashDiaNome"); if(diaNomeEl)diaNomeEl.textContent=todayWeekdayLabel();
+  const {tot,don}=tarefasDeHoje();
+  const pct=tot?Math.round(don/tot*100):0;
+  $("#dashTodayPct").textContent=pct+"%";
+  $("#dashTodayFill").style.width=pct+"%";
+  $("#dashTodayCount").textContent=don+" de "+tot+" tarefas concluídas hoje";
+
+  let feitasAll=0,acertosAll=0;
+  DISCIPLINAS.forEach(d=>{const q=state.questoes[d.id];feitasAll+=q.feitas||0;acertosAll+=q.acertos||0;});
+  const precisao=feitasAll?Math.round(acertosAll/feitasAll*100):0;
+
+  let videosDone=0,videosTot=0;
+  DISCIPLINAS.forEach(d=>{const l=state.videos[d.id]||[];videosTot+=l.length;videosDone+=l.filter(v=>v.feito).length;});
+
+  const revConcluidas=state.revisoes.filter(r=>r.concluida).length;
+  const diasSeq=diasEstudandoSeq();
+
+  const p=curPhase();let tCron=0,dCron=0;
+  p.dias.forEach((d,di)=>d.blocos.forEach((blk,bi)=>{if(!isCheckable(blk))return;tCron++;if(state.done[blockId(p.id,di,bi)])dCron++;}));
+  const pctCron=tCron?dCron/tCron*100:0;
+  const pctVid=videosTot?videosDone/videosTot*100:0;
+  const pctRev=state.revisoes.length?revConcluidas/state.revisoes.length*100:0;
+  const partes=[pctCron,pctVid,pctRev]; if(feitasAll>0)partes.push(precisao);
+  const geral=partes.length?Math.round(partes.reduce((a,b)=>a+b,0)/partes.length):0;
+
+  const cards=[
+    {v:feitasAll,l:"Questões totais",i:"📝",c:"var(--green)"},
+    {v:precisao+"%",l:"Precisão geral",i:"🎯",c:"var(--blue)"},
+    {v:videosDone+"/"+videosTot,l:"Vídeos assistidos",i:"🎥",c:"var(--purple)"},
+    {v:revConcluidas,l:"Revisões concluídas",i:"🔁",c:"var(--amber)"},
+    {v:diasSeq,l:"Dias seguidos estudando",i:"🔥",c:"var(--gold)"},
+    {v:geral+"%",l:"Progresso geral",i:"📈",c:"var(--green)"}
+  ];
+  const box=$("#dashCards");box.innerHTML="";
+  cards.forEach(c=>{
+    const el=document.createElement("div");el.className="card";el.style.setProperty("--card-accent",c.c);
+    el.innerHTML='<span class="ci">'+c.i+'</span><div class="cv">'+c.v+'</div><div class="cl">'+c.l+'</div>';
+    box.appendChild(el);
+  });
+  renderDashRevList();
+}
+
+/* ===================================================================
+   MÓDULO: TIMER POMODORO (novo)
+   Não persiste o cronômetro em si (evita retomadas estranhas após
+   fechar a aba); persiste apenas a preferência de minutos e o tempo
+   já somado ao histórico do dia.
+   =================================================================== */
+let pomoState={running:false,mode:"foco",secondsLeft:25*60,interval:null};
+function pomoFormat(s){s=Math.max(0,s);const m=Math.floor(s/60),ss=s%60;return pad2(m)+":"+pad2(ss);}
+function pomoResetClock(){
+  pomoState.mode="foco";
+  pomoState.secondsLeft=(state.pomodoro.focoMin||25)*60;
+  updatePomodoroUI();
+}
+function updatePomodoroUI(){
+  const clock=$("#pomoClock");if(!clock)return;
+  clock.textContent=pomoFormat(pomoState.secondsLeft);
+  $("#pomoLabel").textContent=pomoState.mode==="foco"?"Foco":"Pausa";
+  $("#pomoBox").classList.toggle("running",pomoState.running);
+  $("#pomoFocoMin").value=state.pomodoro.focoMin;
+  $("#pomoPausaMin").value=state.pomodoro.pausaMin;
+  const h=state.historico[todayKey()];
+  const segs=h?(h.segundos||0):0;
+  $("#pomoTotalHoje").textContent=Math.floor(segs/60)+"min";
+}
+function pomoTick(){
+  pomoState.secondsLeft--;
+  if(pomoState.mode==="foco")logPomodoroSegundos(1); // soma automaticamente ao total diário
+  if(pomoState.secondsLeft<=0){
+    if(pomoState.mode==="foco"){
+      pomoState.mode="pausa"; pomoState.secondsLeft=(state.pomodoro.pausaMin||5)*60;
+      alert("Foco concluído! Hora da pausa. ☕");
+    }else{
+      pomoState.mode="foco"; pomoState.secondsLeft=(state.pomodoro.focoMin||25)*60;
+      alert("Pausa concluída! Bora focar de novo. 🎯");
+    }
+  }
+  updatePomodoroUI();
+}
+function pomoBind(){
+  $("#pomoStart").addEventListener("click",()=>{
+    if(pomoState.running)return;
+    pomoState.running=true;
+    pomoState.interval=setInterval(pomoTick,1000);
+    updatePomodoroUI();
+  });
+  $("#pomoPause").addEventListener("click",()=>{
+    pomoState.running=false; clearInterval(pomoState.interval);
+    updatePomodoroUI();
+  });
+  $("#pomoReset").addEventListener("click",()=>{
+    pomoState.running=false; clearInterval(pomoState.interval);
+    pomoResetClock();
+  });
+  $("#pomoFocoMin").addEventListener("change",e=>{
+    state.pomodoro.focoMin=Math.max(1,parseInt(e.target.value,10)||25);
+    if(!pomoState.running && pomoState.mode==="foco")pomoState.secondsLeft=state.pomodoro.focoMin*60;
+    save();updatePomodoroUI();
+  });
+  $("#pomoPausaMin").addEventListener("change",e=>{
+    state.pomodoro.pausaMin=Math.max(1,parseInt(e.target.value,10)||5);
+    if(!pomoState.running && pomoState.mode==="pausa")pomoState.secondsLeft=state.pomodoro.pausaMin*60;
+    save();updatePomodoroUI();
+  });
+}
+
+/* ===================================================================
+   MÓDULO: HISTÓRICO / GRÁFICOS (novo, usa Chart.js)
+   =================================================================== */
+let charts={};
+function drawChart(id,type,labels,datasets,opts){
+  const ctx=document.getElementById(id);if(!ctx||typeof Chart==="undefined")return;
+  if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(ctx,{type,data:{labels,datasets},options:opts});
+}
+function renderHistorico(){
+  if(typeof Chart==="undefined"){ setTimeout(renderHistorico,300); return; } // Chart.js carrega com defer
+  const dias=ultimosDias(14);
+  const labels=dias.map(fmtDateBR);
+  const feitas=dias.map(k=>(state.historico[k]&&state.historico[k].questoesFeitas)||0);
+  const acertos=dias.map(k=>(state.historico[k]&&state.historico[k].questoesAcertos)||0);
+  const videos=dias.map(k=>(state.historico[k]&&state.historico[k].videos)||0);
+  const horas=dias.map(k=>+(((state.historico[k]&&state.historico[k].segundos)||0)/3600).toFixed(2));
+  const precisao=dias.map((k,i)=>feitas[i]?Math.round(acertos[i]/feitas[i]*100):0);
+  const opts={responsive:true,plugins:{legend:{labels:{color:"#8A99AB"}}},
+    scales:{x:{ticks:{color:"#5C6B7C"},grid:{color:"#26323F"}},y:{ticks:{color:"#5C6B7C"},grid:{color:"#26323F"},beginAtZero:true}}};
+  drawChart("chartQuestoes","bar",labels,[
+    {label:"Feitas",data:feitas,backgroundColor:"#4FA3E3"},
+    {label:"Acertos",data:acertos,backgroundColor:"#3FCB8E"}
+  ],opts);
+  drawChart("chartVideos","bar",labels,[{label:"Vídeos",data:videos,backgroundColor:"#B583E8"}],opts);
+  drawChart("chartHoras","line",labels,[{label:"Horas",data:horas,borderColor:"#E5AE3B",backgroundColor:"transparent",tension:.3}],opts);
+  drawChart("chartPrecisao","line",labels,[{label:"% acerto",data:precisao,borderColor:"#3FCB8E",backgroundColor:"transparent",tension:.3}],opts);
+}
+
+/* ===================================================================
+   MÓDULO: NAVEGAÇÃO POR ABAS (novo)
+   A aba "Cronograma" continua ativa por padrão ao abrir a página,
+   preservando a experiência original.
+   =================================================================== */
+function switchView(view){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.querySelectorAll(".navtab").forEach(b=>b.classList.remove("active"));
+  const target=$("#view-"+view); if(target)target.classList.add("active");
+  const btn=document.querySelector('.navtab[data-view="'+view+'"]'); if(btn)btn.classList.add("active");
+  if(view==="dashboard")renderDashboard();
+  else if(view==="videoaulas")renderVideoaulas();
+  else if(view==="questoes")renderQuestoes();
+  else if(view==="revisoes")renderRevisoes();
+  else if(view==="pomodoro")updatePomodoroUI();
+  else if(view==="historico")renderHistorico();
+}
+$("#navtabs").addEventListener("click",e=>{
+  const btn=e.target.closest(".navtab"); if(!btn)return;
+  switchView(btn.dataset.view);
+});
+
+/* ===== INIT ===== */
+(async function(){
+  await load();            // carrega estado salvo (localStorage / window.storage)
+  renderAll();              // renderiza o cronograma original (comportamento preservado)
+  pomoBind();
+  pomoResetClock();
+  updatePomodoroUI();
 })();
 </script>
 </body>
